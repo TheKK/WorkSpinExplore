@@ -16,18 +16,20 @@
 
 #include "window.h"
 
+#include "toolBox.h"
+
 using namespace std;
 
 class Sprite
 {
 	public:
 		Sprite();
-		Sprite(string filePath, Window& targetWindow,
+		Sprite(string filePath, const Window& window,
 		       int w, int h,
 		       Uint8 r = 0, Uint8 g = 255, Uint8 = 255);
 		~Sprite();
 
-		int LoadSheet(string filePath, Window& targetWindow,
+		int LoadSheet(string filePath, const Window& window,
 			      int w, int h,
 			      Uint8 r = 0, Uint8 g = 255, Uint8 = 255);
 		void ReleaseSheet();

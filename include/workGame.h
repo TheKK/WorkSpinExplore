@@ -13,6 +13,7 @@
 #include "window.h"
 #include "texture.h"
 #include "button.h"
+#include "numberDisplayer.h"
 
 using namespace std;
 
@@ -27,6 +28,7 @@ class WorkGame
 		void Render();
 	private:
 		Button testButton;
+		NumberDisplayer numDisplayer_;
 		SDL_Renderer* targetRenderer_;
 
 		void Release_();

@@ -13,18 +13,20 @@
 
 #include "window.h"
 #include "texture.h"
+#include "renderable.h"
 
 #include "toolBox.h"
 
 using namespace std;
 
 enum ButtonState {
-	BUTTON_NORMAL,
+	BUTTON_NORMAL = 0x00,
 	BUTTON_HOVERED,
-	BUTTON_PUSHED
+	BUTTON_PUSHED,
+	BUTTON_STATE_NUM
 };
 
-class Button
+class Button : public Renderable
 {
 	public:
 		Button(string normalPicPath, string hoverPicPath,
@@ -37,32 +39,12 @@ class Button
 		void Render();
 		void RenderFullWindow();
 
-		void Enlarge(int dw, int dh);
-		void SetSize(unsigned int w, unsigned int h);
-		void SetAlpha(int alpha);
-
-		void Move(int x, int y);
-		void MoveXTo(int x);
-		void MoveYTo(int y);
-		void MoveTo(int x, int y);
-
-		int PosX() const;
-		int PosY() const;
-		int Width() const;
-		int Height() const;
-		SDL_Rect Rect() const;
-		SDL_Texture* Object() const;
-
 		bool MouseHoverd(int mousePosX, int mousePosY);
 		void ChangeState(enum ButtonState buttonState);
 	private:
-		SDL_Texture* normalPic_ = nullptr;
-		SDL_Texture* hoverPic_ = nullptr;
-		SDL_Texture* pushPic_ = nullptr;
-		SDL_Rect rect_;
-		enum ButtonState buttonState_ = BUTTON_NORMAL;
+		SDL_Texture* pic_[BUTTON_STATE_NUM];
 
-		SDL_Renderer* targetRenderer_;
+		enum ButtonState buttonState_ = BUTTON_NORMAL;
 
 		void Release_();
 };

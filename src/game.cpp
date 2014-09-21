@@ -15,8 +15,8 @@ using namespace std;
 Game::Game():
 	mainWindow_("Work!Spin!Explore!!", GAME_WIDTH, GAME_HEIGHT),
 	workGame_(mainWindow_),
-	spinGame_(mainWindow_),
-	exploreGame_(mainWindow_),
+	//spinGame_(mainWindow_),
+	//exploreGame_(mainWindow_),
 	appIsRunning_(true)
 {
 }
@@ -61,16 +61,16 @@ Game::EventHandler_(const SDL_Event &event)
 	}
 
 	workGame_.EventHandler(event);
-	spinGame_.EventHandler(event);
-	exploreGame_.EventHandler(event);
+	//spinGame_.EventHandler(event);
+	//exploreGame_.EventHandler(event);
 }
 
 void
 Game::Update_()
 {
 	workGame_.Update();
-	spinGame_.Update();
-	exploreGame_.Update();
+	//spinGame_.Update();
+	//exploreGame_.Update();
 }
 
 void
@@ -78,9 +78,9 @@ Game::Render_()
 {
 	mainWindow_.Clear();
 	{
-		//workGame_.Render();
-		spinGame_.Render();
-		exploreGame_.Render();
+		workGame_.Render();
+		//spinGame_.Render();
+		//exploreGame_.Render();
 	}
 	mainWindow_.Present();
 }

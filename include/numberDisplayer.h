@@ -1,0 +1,41 @@
+/*
+ * Author: KK <thumbd03803@gmail.com>
+ *
+ * File: numberDisplayer.h
+ */
+
+#ifndef NUMBER_DISPLAYER_H
+#define NUMBER_DISPLAYER_H
+
+#include <iostream>
+#include <cassert>
+#include <cmath>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+
+#include "window.h"
+#include "sprite.h"
+
+#include "toolBox.h"
+
+#define DISPLAY_NUMBER	4
+
+class NumberDisplayer
+{
+	public:
+		NumberDisplayer(const Window& window);
+		~NumberDisplayer();
+
+		void Render();
+
+		void AddNum(Uint8 value);
+		void SetNum(int value);
+	private:
+		Sprite numbers_;
+		Uint8 displayValue_[DISPLAY_NUMBER] = {1, 2, 3, 4};
+		SDL_Rect rect_;
+
+		void Release_();
+};
+
+#endif	/* NUMBER_DISPLAYER_H */

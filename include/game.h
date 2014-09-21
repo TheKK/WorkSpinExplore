@@ -35,8 +35,8 @@ class Game
 		Window mainWindow_;
 
 		WorkGame workGame_;
-		SpinGame spinGame_;
-		ExploreGame exploreGame_;
+		//SpinGame spinGame_;
+		//ExploreGame exploreGame_;
 
 		bool appIsRunning_;
 

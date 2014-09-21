@@ -10,11 +10,11 @@ Sprite::Sprite()
 {
 }
 
-Sprite::Sprite(string filePath, Window& targetWindow,
+Sprite::Sprite(string filePath, const Window& window,
 	       int w, int h,
 	       Uint8 r, Uint8 g, Uint8 b)
 {
-	LoadSheet(filePath, targetWindow, w, h, r, g, b);
+	LoadSheet(filePath, window, w, h, r, g, b);
 }
 
 Sprite::~Sprite()
@@ -23,45 +23,25 @@ Sprite::~Sprite()
 }
 
 int
-Sprite::LoadSheet(string filePath, Window& targetWindow,
+Sprite::LoadSheet(string filePath, const Window& window,
 	       int w, int h,
 	       Uint8 r, Uint8 g, Uint8 b)
 {
-	/* Set default target renderer */
-	targetRenderer_ = targetWindow.GetRenderer();
+	int sheetWidth, sheetHeight;
 
-	/* Load and convert image */
-	SDL_Surface* loadedImage = nullptr;
-	//string basePath = SDL_GetBasePath();
+	targetRenderer_ = window.GetRenderer();
 
-	loadedImage = IMG_Load(filePath.c_str());
-	if (loadedImage == nullptr) {
-		fprintf(stderr, "SDL error while loading \"%s\": %s\n",
-			filePath.c_str(), IMG_GetError());
-		return -1;
-	}
-
-	SDL_SetColorKey(loadedImage, SDL_TRUE,
-			SDL_MapRGB(loadedImage->format, r, g, b));
-
-	if (sheet_ != nullptr)
-		ReleaseSheet();
-
-	sheet_ = SDL_CreateTextureFromSurface(targetRenderer_, loadedImage);
-	if (sheet_ == nullptr) {
-		fprintf(stderr,
-			"SDL error while convering surface into texture: %s\n",
-			SDL_GetError());
-		return -1;
-	}
+	sheet_ = ToolBox::LoadTexture(filePath, window);
 
 	pos_.x = 0;
 	pos_.y = 0;
 	pos_.w = w;
 	pos_.h = h;
 
+	SDL_QueryTexture(sheet_, nullptr, nullptr, &sheetWidth, &sheetHeight);
+
 	/* Setup clip for each frame and other stuffs*/
-	totalFrame_= loadedImage->w / w;
+	totalFrame_= sheetWidth / w;
 	SDL_Rect toBePushed;
 	toBePushed.y = 0;
 	toBePushed.w = w;
@@ -70,9 +50,6 @@ Sprite::LoadSheet(string filePath, Window& targetWindow,
 		toBePushed.x = i * w;
 		clip_.push_back(toBePushed);
 	}
-
-	SDL_FreeSurface(loadedImage);
-	loadedImage = nullptr;
 
 	return 0;
 }

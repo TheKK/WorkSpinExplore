@@ -11,17 +11,20 @@ Button::Button(string normalPicPath, string hoverPicPath, string pushPicPath,
 {
 	targetRenderer_ = window.GetRenderer();
 
-	normalPic_ = ToolBox::LoadTexture("normal.png", window, r, g, b);
-	hoverPic_ = ToolBox::LoadTexture("hover.png", window, r, g, b);
-	pushPic_ = ToolBox::LoadTexture("push.png", window, r, g, b);
+	pic_[BUTTON_NORMAL] = ToolBox::LoadTexture("normal.png", window, r, g, b);
+	pic_[BUTTON_HOVERED] = ToolBox::LoadTexture("hover.png", window, r, g, b);
+	pic_[BUTTON_PUSHED] = ToolBox::LoadTexture("push.png", window, r, g, b);
 
 	rect_.x = 60;
 	rect_.y = 120;
-	SDL_QueryTexture(normalPic_, NULL, NULL, &rect_.w, &rect_.h);
+	SDL_QueryTexture(pic_[BUTTON_NORMAL], nullptr, nullptr, &rect_.w, &rect_.h);
+
+	buttonState_ = BUTTON_NORMAL;
 }
 
 Button::~Button()
 {
+	Release_();
 }
 
 void
@@ -52,24 +55,13 @@ Button::Update()
 void
 Button::Render()
 {
-	switch (buttonState_) {
-	case BUTTON_NORMAL:
-		SDL_RenderCopy(targetRenderer_, normalPic_, NULL, &rect_);
-		break;
-	case BUTTON_HOVERED:
-		SDL_RenderCopy(targetRenderer_, hoverPic_, NULL, &rect_);
-		break;
-	case BUTTON_PUSHED:
-		SDL_RenderCopy(targetRenderer_, pushPic_, NULL, &rect_);
-		break;
-	}
+	SDL_RenderCopy(targetRenderer_, pic_[buttonState_], nullptr, &rect_);
 }
 
 void
-Button::Move(int dx, int dy)
+Button::RenderFullWindow()
 {
-	rect_.x += dx;
-	rect_.y += dy;
+	SDL_RenderCopy(targetRenderer_, pic_[buttonState_], nullptr, nullptr);
 }
 
 bool
@@ -93,15 +85,9 @@ Button::ChangeState(enum ButtonState newState)
 void
 Button::Release_()
 {
-	if (normalPic_ != nullptr)
-		SDL_DestroyTexture(normalPic_);
-	normalPic_ = nullptr;
-
-	if (hoverPic_ != nullptr)
-		SDL_DestroyTexture(hoverPic_);
-	hoverPic_ = nullptr;
-
-	if (pushPic_ != nullptr)
-		SDL_DestroyTexture(pushPic_);
-	pushPic_ = nullptr;
+	for (SDL_Texture* e : pic_) {
+		if (e != nullptr)
+			SDL_DestroyTexture(e);
+		e = nullptr;
+	}
 }

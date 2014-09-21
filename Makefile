@@ -39,6 +39,8 @@ OBJ = main.o		\
       textLabel.o	\
       button.o		\
       achievementBar.o	\
+      numberDisplayer.o	\
+      renderable.o	\
 
 OUT_EXE = wse
 
