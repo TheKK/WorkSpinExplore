@@ -15,15 +15,16 @@
 #include <SDL2/SDL_ttf.h>
 
 #include "window.h"
+#include "renderable.h"
 
 using namespace std;
 
-class TextLabel
+class TextLabel : public Renderable
 {
 	public:
 		TextLabel();
 		TextLabel(string fontPath, int fontSize, string text,
-			  SDL_Color color, Window& targetWindow);
+			  SDL_Color color, SDL_Renderer* renderer);
 		~TextLabel();
 
 		void OpenFont(string fontPath, int fontSize);
@@ -32,35 +33,18 @@ class TextLabel
 		void ReleaseTexture();
 
 		void SetText(string text);
-		void SetSize(int w, int h);
+		void SetLineWidth(int width);
 		void SetColor(SDL_Color color);
-		void SetAlpha(int alpha);
-		void SetRenderer(SDL_Renderer* renderer);
-
-		void Move(int x, int y);
-		void MoveXTo(int x);
-		void MoveYTo(int y);
-		void MoveTo(int x, int y);
-
-		int PosX();
-		int PosY();
-		int Width();
-		int Height();
-		SDL_Rect Rect();
 
 		void Render();
-		void RenderFullWindow();
 	private:
 		SDL_Texture* texture_ = nullptr;
-		SDL_Rect rect_ = {0, 0, 0, 0};
 
 		TTF_Font* font_ = nullptr;
 		string text_;
 		SDL_Color color_;
 
-		SDL_Renderer* targetRenderer_ = nullptr;
-
-		int alpha_ = SDL_ALPHA_OPAQUE;
+		int lineWidth_ = 300;
 };
 
 #endif	/* TEXT_TABLE_H */

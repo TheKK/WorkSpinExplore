@@ -41,6 +41,7 @@ OBJ = main.o		\
       achievementBar.o	\
       numberDisplayer.o	\
       renderable.o	\
+      userEventControler.o
 
 OUT_EXE = wse
 

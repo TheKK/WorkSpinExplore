@@ -23,7 +23,10 @@ NumberDisplayer::~NumberDisplayer()
 void
 NumberDisplayer::AddNum(Uint8 value)
 {
+	assert(value < 10);
+
 	Uint8 toNext = 0;
+
 	displayValue_[DISPLAY_NUMBER - 1] += value;
 	if (displayValue_[DISPLAY_NUMBER - 1] > 9) {
 		displayValue_[DISPLAY_NUMBER - 1] -= 10;

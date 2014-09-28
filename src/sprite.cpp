@@ -33,10 +33,10 @@ Sprite::LoadSheet(string filePath, const Window& window,
 
 	sheet_ = ToolBox::LoadTexture(filePath, window);
 
-	pos_.x = 0;
-	pos_.y = 0;
-	pos_.w = w;
-	pos_.h = h;
+	rect_.x = 0;
+	rect_.y = 0;
+	rect_.w = w;
+	rect_.h = h;
 
 	SDL_QueryTexture(sheet_, nullptr, nullptr, &sheetWidth, &sheetHeight);
 
@@ -62,83 +62,6 @@ Sprite::ReleaseSheet()
 	sheet_ = nullptr;
 }
 
-void
-Sprite::Enlarge(int dw, int dh)
-{
-	pos_.w += dw;
-	pos_.h += dh;
-}
-
-void
-Sprite::SetSize(unsigned int w, unsigned int h)
-{
-	pos_.w = w;
-	pos_.h = h;
-}
-
-void
-Sprite::SetAlpha(int alpha)
-{
-	alpha_ = alpha;
-	SDL_SetTextureAlphaMod(sheet_, alpha_);
-}
-
-void
-Sprite::Move(int x, int y)
-{
-	pos_.x += x;
-	pos_.y += y;
-}
-
-void
-Sprite::MoveXTo(int x)
-{
-	pos_.x = x;
-}
-
-void
-Sprite::MoveYTo(int y)
-{
-	pos_.y = y;
-}
-
-void
-Sprite::MoveTo(int x, int y)
-{
-	pos_.x = x;
-	pos_.y = y;
-}
-
-int
-Sprite::PosX()
-{
-	return pos_.x;
-}
-
-
-int
-Sprite::PosY()
-{
-	return pos_.y;
-}
-
-int
-Sprite::Width()
-{
-	return pos_.w;
-}
-
-int
-Sprite::Height()
-{
-	return pos_.h;
-}
-
-SDL_Rect
-Sprite::Rect()
-{
-	return pos_;
-}
 
 SDL_Texture*
 Sprite::Object()
@@ -149,7 +72,7 @@ Sprite::Object()
 void
 Sprite::Render()
 {
-	SDL_RenderCopy(targetRenderer_, sheet_, &clip_[currentFrame_], &pos_);
+	SDL_RenderCopy(targetRenderer_, sheet_, &clip_[currentFrame_], &rect_);
 }
 
 void

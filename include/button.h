@@ -29,15 +29,17 @@ enum ButtonState {
 class Button : public Renderable
 {
 	public:
+		Button();
 		Button(string normalPicPath, string hoverPicPath,
 		       string pushPicPath, const Window& window,
 		       Uint8 r = 0, Uint8 g = 255, Uint8 b = 255);
 		~Button();
 
-		void EventHandler(const SDL_Event& event);
-		void Update();
+		void Load(string normalPicPath, string hoverPicPath,
+		       string pushPicPath, const Window& window,
+		       Uint8 r = 0, Uint8 g = 255, Uint8 b = 255);
+
 		void Render();
-		void RenderFullWindow();
 
 		bool MouseHoverd(int mousePosX, int mousePosY);
 		void ChangeState(enum ButtonState buttonState);

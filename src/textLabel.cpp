@@ -11,9 +11,9 @@ TextLabel::TextLabel()
 }
 
 TextLabel::TextLabel(string fontPath, int fontSize, string text,
-		     SDL_Color color, Window& targetWindow)
+		     SDL_Color color, SDL_Renderer* renderer)
 {
-	SetRenderer(targetWindow.GetRenderer());
+	SetRenderer(renderer);
 	OpenFont(fontPath, fontSize);
 	SetText(text);
 	SetColor(color);
@@ -54,7 +54,8 @@ TextLabel::RenderToTexture()
 	SDL_Texture* tex = nullptr;
 
 	/* Rendering */
-	tmpSurface = TTF_RenderText_Solid(font_, text_.c_str(), color_);
+	tmpSurface = TTF_RenderText_Blended_Wrapped(font_, text_.c_str(),
+						    color_, lineWidth_);
 	if (tmpSurface == nullptr) {
 		string errMsg("Error while rendering font_: ");
 		errMsg += TTF_GetError();
@@ -93,10 +94,8 @@ TextLabel::SetText(string text)
 }
 
 void
-TextLabel::SetSize(int w, int h)
+TextLabel::SetLineWidth(int width)
 {
-	rect_.w = w;
-	rect_.h = h;
 }
 
 void
@@ -104,86 +103,8 @@ TextLabel::SetColor(SDL_Color color)
 {
 	color_ = color;
 }
-
-void
-TextLabel::SetAlpha(int alpha)
-{
-	alpha_ = alpha;
-	SDL_SetTextureAlphaMod(texture_, alpha_);
-}
-
-void
-TextLabel::SetRenderer(SDL_Renderer* renderer)
-{
-	targetRenderer_ = renderer;
-}
-
-void
-TextLabel::Move(int x, int y)
-{
-	rect_.x += x;
-	rect_.y += y;
-}
-
-void
-TextLabel::MoveXTo(int x)
-{
-	rect_.x = x;
-}
-
-void
-TextLabel::MoveYTo(int y)
-{
-	rect_.y = y;
-}
-
-void
-TextLabel::MoveTo(int x, int y)
-{
-	rect_.x = x;
-	rect_.y = y;
-}
-
-int
-TextLabel::PosX()
-{
-	return rect_.x;
-}
-
-
-int
-TextLabel::PosY()
-{
-	return rect_.y;
-}
-
-int
-TextLabel::Width()
-{
-	return rect_.w;
-}
-
-int
-TextLabel::Height()
-{
-	return rect_.h;
-}
-
-SDL_Rect
-TextLabel::Rect()
-{
-	return rect_;
-}
-
-
 void
 TextLabel::Render()
 {
 	SDL_RenderCopy(targetRenderer_, texture_, nullptr, &rect_);
-}
-
-void
-TextLabel::RenderFullWindow()
-{
-	SDL_RenderCopy(targetRenderer_, texture_, nullptr, nullptr);
 }

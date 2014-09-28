@@ -23,17 +23,28 @@
 
 using namespace std;
 
-enum Achievements {
+enum Achievements
+{
 	ACHIEVEMENT_TEST = 0,
-	ACHIEVEMENT_NUM
+	ACHIEVEMENT_COUNT
+};
+
+struct AchievementMsg
+{
+	Texture* pic = nullptr;
+	TextLabel* text = nullptr;
+	int barPosY = 0;
+	Uint8 alpha = SDL_ALPHA_TRANSPARENT;
+	int frame = 0;
+	bool shouldDie = false;
 };
 
 class AchievementBar
 {
 	public:
 		AchievementBar();
-		AchievementBar(string barPicPath, vector<string> iconPath,
-			       vector<string> texts, const Window& window);
+		AchievementBar(string barPicPath, vector<string>& iconPath,
+			       vector<string>& texts, const Window& window);
 		~AchievementBar();
 
 		void Load(string barPicPath, vector<string>& iconPath,
@@ -42,12 +53,15 @@ class AchievementBar
 		void EventHandler(const SDL_Event& event);
 		void Update();
 		void Render();
+
+		void SendJob(enum Achievements which);
 	private:
 		Texture barBackground_;
-		TextLabel textLabel_;
 
 		vector<Texture*> icons_;
 		vector<string> texts_;
+
+		vector<struct AchievementMsg> jobQueue;
 
 		SDL_Renderer* targetRenderer_ = nullptr;
 

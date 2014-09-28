@@ -19,7 +19,6 @@ class Renderable
 		Renderable();
 		virtual ~Renderable();
 		virtual void Render() = 0;
-		virtual void RenderFullWindow() = 0;
 
 		void Enlarge(int dw, int dh);
 		void SetSize(unsigned int w, unsigned int h);
@@ -40,7 +39,6 @@ class Renderable
 
 		SDL_Renderer* targetRenderer_;
 
-		int alpha_ = SDL_ALPHA_OPAQUE;
 
 		bool visable_ = true;
 };

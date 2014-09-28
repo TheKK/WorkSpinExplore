@@ -26,8 +26,9 @@ class SpinGame
 		void Update();
 		void Render();
 	private:
-		Button testButton;
-		SDL_Renderer* targetRenderer_;
+		Texture backGroundPicture_;
+
+		SDL_Renderer* targetRenderer_ = nullptr;
 
 		void Release_();
 };

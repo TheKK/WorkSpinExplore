@@ -41,6 +41,13 @@ Texture::ReleaseTexture()
 	texture_ = nullptr;
 }
 
+void
+Texture::SetAlpha(Uint8 value)
+{
+	SDL_SetTextureAlphaMod(texture_, value);
+	alpha_ = value;
+}
+
 SDL_Texture*
 Texture::Object() const
 {

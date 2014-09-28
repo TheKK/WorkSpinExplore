@@ -10,17 +10,21 @@
 #include <iostream>
 #include <cassert>
 #include <cmath>
+#include <cstdlib>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
 #include "window.h"
 #include "sprite.h"
+#include "renderable.h"
 
 #include "toolBox.h"
 
 #define DISPLAY_NUMBER	4
 
-class NumberDisplayer
+using namespace std;
+
+class NumberDisplayer : public Renderable
 {
 	public:
 		NumberDisplayer(const Window& window);

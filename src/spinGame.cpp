@@ -9,10 +9,11 @@
 const static SDL_Rect viewport = {213, 0, 213, 360};
 
 SpinGame::SpinGame(const Window& window):
-	testButton("normal.png", "hover.png", "push.png", window)
+	backGroundPicture_("spinGameBG.png", window)
 {
 	targetRenderer_ = window.GetRenderer();
-	testButton.Move(viewport.x, viewport.y);
+
+	backGroundPicture_.MoveTo(viewport.x, viewport.y);
 }
 
 SpinGame::~SpinGame()
@@ -24,17 +25,15 @@ SpinGame::EventHandler(const SDL_Event& event)
 {
 	switch (event.type) {
 	}
-	testButton.EventHandler(event);
 }
 
 void
 SpinGame::Update()
 {
-	testButton.Update();
 }
 
 void
 SpinGame::Render()
 {
-	testButton.Render();
+	backGroundPicture_.Render();
 }

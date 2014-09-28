@@ -15,10 +15,16 @@ using namespace std;
 Game::Game():
 	mainWindow_("Work!Spin!Explore!!", GAME_WIDTH, GAME_HEIGHT),
 	workGame_(mainWindow_),
-	//spinGame_(mainWindow_),
-	//exploreGame_(mainWindow_),
+	spinGame_(mainWindow_),
+	exploreGame_(mainWindow_),
 	appIsRunning_(true)
 {
+	vector<string> iconPathes, texts;
+
+	iconPathes.emplace_back(string("achievementIcon1.png"));
+	texts.emplace_back(string("Achievement unlocked!"));
+
+	aBar_.Load("achievementBar.png", iconPathes, texts, mainWindow_);
 }
 
 Game::~Game()
@@ -58,19 +64,32 @@ Game::EventHandler_(const SDL_Event &event)
 			appIsRunning_ = false;
 			break;
 		}
+		break;
+	case SDL_MOUSEBUTTONDOWN:
+		if (event.button.button == SDL_BUTTON_LEFT)
+			mousePushCount++;
 	}
 
 	workGame_.EventHandler(event);
-	//spinGame_.EventHandler(event);
-	//exploreGame_.EventHandler(event);
+	spinGame_.EventHandler(event);
+	exploreGame_.EventHandler(event);
+
+	aBar_.EventHandler(event);
+
+	if (!got && mousePushCount == 20) {
+		aBar_.SendJob(ACHIEVEMENT_TEST);
+		got = true;
+	}
 }
 
 void
 Game::Update_()
 {
 	workGame_.Update();
-	//spinGame_.Update();
-	//exploreGame_.Update();
+	spinGame_.Update();
+	exploreGame_.Update();
+	
+	aBar_.Update();
 }
 
 void
@@ -79,8 +98,10 @@ Game::Render_()
 	mainWindow_.Clear();
 	{
 		workGame_.Render();
-		//spinGame_.Render();
-		//exploreGame_.Render();
+		spinGame_.Render();
+		exploreGame_.Render();
+		
+		aBar_.Render();
 	}
 	mainWindow_.Present();
 }

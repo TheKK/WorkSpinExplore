@@ -14,6 +14,7 @@
 #include "texture.h"
 #include "button.h"
 #include "numberDisplayer.h"
+#include "userEventControler.h"
 
 using namespace std;
 
@@ -27,8 +28,10 @@ class WorkGame
 		void Update();
 		void Render();
 	private:
-		Button testButton;
-		NumberDisplayer numDisplayer_;
+		Texture backGroundPicture_;
+		Button workButton_;
+		NumberDisplayer moneyDisplayer_;
+
 		SDL_Renderer* targetRenderer_;
 
 		void Release_();

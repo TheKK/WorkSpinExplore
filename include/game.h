@@ -35,10 +35,15 @@ class Game
 		Window mainWindow_;
 
 		WorkGame workGame_;
-		//SpinGame spinGame_;
-		//ExploreGame exploreGame_;
+		SpinGame spinGame_;
+		ExploreGame exploreGame_;
+		
+		AchievementBar aBar_;
 
 		bool appIsRunning_;
+
+		bool got = false;
+		int mousePushCount = 0;
 
 		void EventHandler_(const SDL_Event& event);
 		void Update_();

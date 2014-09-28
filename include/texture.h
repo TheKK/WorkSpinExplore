@@ -33,12 +33,14 @@ class Texture : public Renderable
 				Uint8 r = 0, Uint8 g = 255, Uint8 b = 255);
 		void ReleaseTexture();
 
+		void SetAlpha(Uint8 value);
 		SDL_Texture* Object() const;
 
 		void Render();
 		void RenderFullWindow();
 	private:
 		SDL_Texture* texture_ = nullptr;
+		Uint8 alpha_ = SDL_ALPHA_OPAQUE;
 };
 
 #endif	/* TEXTURE_H */
