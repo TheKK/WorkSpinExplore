@@ -37,7 +37,6 @@ class NumberDisplayer : public Renderable
 	private:
 		Sprite numbers_;
 		Uint8 displayValue_[DISPLAY_NUMBER] = {1, 2, 3, 4};
-		SDL_Rect rect_;
 
 		void Release_();
 };

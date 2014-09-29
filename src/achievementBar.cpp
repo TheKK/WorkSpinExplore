@@ -8,14 +8,14 @@
 
 #define GAME_FPS	60
 
+
 AchievementBar::AchievementBar()
 {
 }
 
-AchievementBar::AchievementBar(string barPicPath, vector<string>& iconPath,
-			       vector<string>& texts, const Window& window)
+AchievementBar::AchievementBar(string barPicPath, const Window& window)
 {
-	Load(barPicPath, iconPath, texts, window);
+	Load(barPicPath, window);
 }
 
 AchievementBar::~AchievementBar()
@@ -24,9 +24,19 @@ AchievementBar::~AchievementBar()
 }
 
 void
-AchievementBar::Load(string barPicPath, vector<string>& iconPath,
-		     vector<string>& texts, const Window& window)
+AchievementBar::Load(string barPicPath, const Window& window)
 {
+	//TODO: Improve this
+	vector<string> iconPath;
+	vector<string> texts;
+
+	iconPath.emplace_back(string("achievementIcon1.png"));
+	iconPath.emplace_back(string("achievementIcon1.png"));
+
+	texts.emplace_back(string("This is a test"));
+	texts.emplace_back(string("Click mouse 20 times!"));
+	//END OF TODO
+
 	assert(iconPath.size() == ACHIEVEMENT_COUNT);
 	assert(texts.size() == ACHIEVEMENT_COUNT);
 

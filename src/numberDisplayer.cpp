@@ -9,8 +9,8 @@
 NumberDisplayer::NumberDisplayer(const Window& window):
 	numbers_("number.png", window, 30, 30)
 {
-	rect_.x = 10;
-	rect_.y = 10;
+	rect_.x = 0;
+	rect_.y = 0;
 	rect_.w = 120;
 	rect_.h = 30;
 	numbers_.SetSize(rect_.w / DISPLAY_NUMBER, rect_.h);

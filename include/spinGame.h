@@ -28,6 +28,8 @@ class SpinGame
 	private:
 		Texture backGroundPicture_;
 
+		Texture spinPicture_;
+
 		SDL_Renderer* targetRenderer_ = nullptr;
 
 		void Release_();

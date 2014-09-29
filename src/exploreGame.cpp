@@ -9,7 +9,7 @@
 const static SDL_Rect viewport = {426, 0, 213, 360};
 
 ExploreGame::ExploreGame(const Window& window):
-	backGroundPicture_("spinGameBG.png", window)
+	backGroundPicture_("exploreGameBG.png", window)
 {
 	targetRenderer_ = window.GetRenderer();
 

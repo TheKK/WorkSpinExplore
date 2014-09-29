@@ -18,7 +18,7 @@ Texture::Texture(string filePath, const Window& window,
 
 Texture::~Texture()
 {
-	ReleaseTexture();
+	Release_();
 }
 
 void
@@ -34,11 +34,13 @@ Texture::LoadTexture(string filePath, const Window& window,
 }
 
 void
-Texture::ReleaseTexture()
+Texture::Rotate(double value)
 {
-	if (texture_ != nullptr)
-		SDL_DestroyTexture(texture_);
-	texture_ = nullptr;
+	degree_ += value;
+	if (degree_ > 360.0)
+		degree_ -= 360.0;
+	else if (degree_ < 0)
+		degree_ = 360 - degree_;
 }
 
 void
@@ -57,11 +59,20 @@ Texture::Object() const
 void
 Texture::Render()
 {
-	SDL_RenderCopy(targetRenderer_, texture_, nullptr, &rect_);
+	SDL_RenderCopyEx(targetRenderer_, texture_, nullptr, &rect_,
+			 degree_, nullptr, SDL_FLIP_NONE);
 }
 
 void
 Texture::RenderFullWindow()
 {
 	SDL_RenderCopy(targetRenderer_, texture_, nullptr, nullptr);
+}
+
+void
+Texture::Release_()
+{
+	if (texture_ != nullptr)
+		SDL_DestroyTexture(texture_);
+	texture_ = nullptr;
 }

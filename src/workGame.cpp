@@ -21,10 +21,12 @@ WorkGame::WorkGame(const Window& window):
 	moneyDisplayer_.MoveTo(viewport.x, viewport.y);
 
 	/* Move these friends to their new place*/
-	workButton_.MoveTo(
+	workButton_.Move(
 		(viewport.w - workButton_.Width()) / 2,
 		(viewport.h - workButton_.Height()) / 2);
-	moneyDisplayer_.Move(100, 100);
+	moneyDisplayer_.Move(
+		(viewport.w - moneyDisplayer_.Width()) / 2 - 30,
+		viewport.h - moneyDisplayer_.Height() - 10);
 }
 
 WorkGame::~WorkGame()
@@ -38,29 +40,15 @@ WorkGame::EventHandler(const SDL_Event& event)
 	switch (event.type) {
 	case SDL_KEYDOWN:
 		switch (event.key.keysym.sym) {
-		case SDLK_e:
-			break;
-		case SDLK_r:
-			break;
 		}
-		break;
-	case SDL_MOUSEMOTION:
-		if (event.motion.state == SDL_BUTTON_LMASK)
-			break;
-
-		if (workButton_.MouseHoverd(event.motion.x, event.motion.y))
-			workButton_.ChangeState(BUTTON_HOVERED);
-		else
-			workButton_.ChangeState(BUTTON_NORMAL);
 		break;
 	case SDL_MOUSEBUTTONDOWN:
-		if (workButton_.MouseHoverd(event.button.x, event.button.y)) {
-			workButton_.ChangeState(BUTTON_PUSHED);
-			moneyDisplayer_.AddNum(3);
-		}
+		if (event.button.button == SDL_BUTTON_LEFT)
+			TapTheButton_();
 		break;
 	case SDL_MOUSEBUTTONUP:
-		workButton_.ChangeState(BUTTON_NORMAL);
+		if (event.button.button == SDL_BUTTON_LEFT)
+			ReleaseTheButton_();
 		break;
 	case SDL_USEREVENT:
 		if (event.user.type == UserEvents::UserEvent1)
@@ -85,6 +73,19 @@ WorkGame::Render()
 
 	workButton_.Render();
 	moneyDisplayer_.Render();
+}
+
+void
+WorkGame::TapTheButton_()
+{
+	workButton_.ChangeState(BUTTON_PUSHED);
+	moneyDisplayer_.AddNum(1);
+}
+
+void
+WorkGame::ReleaseTheButton_()
+{
+	workButton_.ChangeState(BUTTON_NORMAL);
 }
 
 void

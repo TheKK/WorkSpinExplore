@@ -26,6 +26,7 @@ using namespace std;
 enum Achievements
 {
 	ACHIEVEMENT_TEST = 0,
+	ACHIEVEMENT_MOUSE_CLICK_20,
 	ACHIEVEMENT_COUNT
 };
 
@@ -43,12 +44,10 @@ class AchievementBar
 {
 	public:
 		AchievementBar();
-		AchievementBar(string barPicPath, vector<string>& iconPath,
-			       vector<string>& texts, const Window& window);
+		AchievementBar(string barPicPath, const Window& window);
 		~AchievementBar();
 
-		void Load(string barPicPath, vector<string>& iconPath,
-			  vector<string>& texts, const Window& window);
+		void Load(string barPicPath, const Window& window);
 
 		void EventHandler(const SDL_Event& event);
 		void Update();

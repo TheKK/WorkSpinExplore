@@ -10,7 +10,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <cstdio>
+#include <ctime>
 #include <SDL2/SDL.h>
 
 #include "workGame.h"
@@ -48,6 +48,8 @@ class Game
 		void EventHandler_(const SDL_Event& event);
 		void Update_();
 		void Render_();
+
+		void ScreenShot_();
 
 		void Release_();
 };

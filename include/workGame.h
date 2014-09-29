@@ -34,6 +34,9 @@ class WorkGame
 
 		SDL_Renderer* targetRenderer_;
 
+		void TapTheButton_();
+		void ReleaseTheButton_();
+
 		void Release_();
 };
 

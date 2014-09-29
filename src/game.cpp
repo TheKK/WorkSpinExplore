@@ -17,14 +17,9 @@ Game::Game():
 	workGame_(mainWindow_),
 	spinGame_(mainWindow_),
 	exploreGame_(mainWindow_),
+	aBar_("achievementBar.png", mainWindow_),
 	appIsRunning_(true)
 {
-	vector<string> iconPathes, texts;
-
-	iconPathes.emplace_back(string("achievementIcon1.png"));
-	texts.emplace_back(string("Achievement unlocked!"));
-
-	aBar_.Load("achievementBar.png", iconPathes, texts, mainWindow_);
 }
 
 Game::~Game()
@@ -63,6 +58,9 @@ Game::EventHandler_(const SDL_Event &event)
 		case SDLK_q:
 			appIsRunning_ = false;
 			break;
+		case SDLK_F12:
+			ScreenShot_();
+			break;
 		}
 		break;
 	case SDL_MOUSEBUTTONDOWN:
@@ -77,7 +75,7 @@ Game::EventHandler_(const SDL_Event &event)
 	aBar_.EventHandler(event);
 
 	if (!got && mousePushCount == 20) {
-		aBar_.SendJob(ACHIEVEMENT_TEST);
+		aBar_.SendJob(ACHIEVEMENT_MOUSE_CLICK_20);
 		got = true;
 	}
 }
@@ -104,6 +102,31 @@ Game::Render_()
 		aBar_.Render();
 	}
 	mainWindow_.Present();
+}
+
+void
+Game::ScreenShot_()
+{
+	int w, h;
+	struct tm* timeinfo;
+	time_t currentTime;
+	char fileName[30];
+	SDL_Surface* shot;
+
+	SDL_GetRendererOutputSize(mainWindow_.GetRenderer(), &w, &h);
+
+	/* Create blank surface to store screenshot */
+	shot = SDL_CreateRGBSurface(0, w, h, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
+	SDL_RenderReadPixels(mainWindow_.GetRenderer(), NULL, SDL_PIXELFORMAT_ARGB8888, shot->pixels, shot->pitch);
+
+	/* Name file with date and time */
+	time(&currentTime);
+	timeinfo = localtime(&currentTime);
+	strftime(fileName, 30, "%F:%T.bmp", timeinfo);
+
+	SDL_SaveBMP(shot, fileName);
+
+	SDL_FreeSurface(shot);
 }
 
 void
