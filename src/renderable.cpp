@@ -90,3 +90,15 @@ Renderable::Rect() const
 {
 	return rect_;
 }
+
+bool
+Renderable::MouseHovered(int32_t x, int32_t y)
+{
+	if (
+		x < (rect_.x + rect_.w) && x > rect_.x &&
+		y < (rect_.y + rect_.h) && y > rect_.y
+	)
+		return true;
+	else
+		return false;
+}

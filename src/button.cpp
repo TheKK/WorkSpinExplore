@@ -7,9 +7,9 @@
 #include "button.h"
 
 Button::Button(string normalPicPath, string hoverPicPath, string pushPicPath,
-	       const Window& window, Uint8 r, Uint8 g, Uint8 b)
+	       SDL_Renderer* renderer, Uint8 r, Uint8 g, Uint8 b)
 {
-	Load(normalPicPath, hoverPicPath, pushPicPath, window, r, g, b);
+	Load(normalPicPath, hoverPicPath, pushPicPath, renderer, r, g, b);
 }
 
 Button::~Button()
@@ -19,15 +19,15 @@ Button::~Button()
 
 void
 Button::Load(string normalPicPath, string hoverPicPath, string pushPicPath,
-	     const Window& window, Uint8 r, Uint8 g, Uint8 b)
+	     SDL_Renderer* renderer, Uint8 r, Uint8 g, Uint8 b)
 {
-	SetRenderer(window.GetRenderer());
+	SetRenderer(renderer);
 
-	pic_[BUTTON_NORMAL] = ToolBox::LoadTexture("normal.png", window,
+	pic_[BUTTON_NORMAL] = ToolBox::LoadTexture("normal.png", renderer,
 						   r, g, b);
-	pic_[BUTTON_HOVERED] = ToolBox::LoadTexture("hover.png", window,
+	pic_[BUTTON_HOVERED] = ToolBox::LoadTexture("hover.png", renderer,
 						    r, g, b);
-	pic_[BUTTON_PUSHED] = ToolBox::LoadTexture("push.png", window,
+	pic_[BUTTON_PUSHED] = ToolBox::LoadTexture("push.png", renderer,
 						   r, g, b);
 
 	SDL_QueryTexture(pic_[BUTTON_NORMAL], nullptr, nullptr,

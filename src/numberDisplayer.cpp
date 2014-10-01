@@ -6,8 +6,8 @@
 
 #include "numberDisplayer.h"
 
-NumberDisplayer::NumberDisplayer(const Window& window):
-	numbers_("number.png", window, 30, 30)
+NumberDisplayer::NumberDisplayer(SDL_Renderer* renderer):
+	numbers_("number.png", renderer, 30, 30)
 {
 	rect_.x = 0;
 	rect_.y = 0;

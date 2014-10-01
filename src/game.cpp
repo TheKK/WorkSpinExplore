@@ -14,10 +14,10 @@ using namespace std;
 
 Game::Game():
 	mainWindow_("Work!Spin!Explore!!", GAME_WIDTH, GAME_HEIGHT),
-	workGame_(mainWindow_),
-	spinGame_(mainWindow_),
-	exploreGame_(mainWindow_),
-	aBar_("achievementBar.png", mainWindow_),
+	workGame_(mainWindow_.GetRenderer()),
+	spinGame_(mainWindow_.GetRenderer()),
+	exploreGame_(mainWindow_.GetRenderer()),
+	aBar_("achievementBar.png", mainWindow_.GetRenderer()),
 	appIsRunning_(true)
 {
 }
@@ -116,8 +116,18 @@ Game::ScreenShot_()
 	SDL_GetRendererOutputSize(mainWindow_.GetRenderer(), &w, &h);
 
 	/* Create blank surface to store screenshot */
-	shot = SDL_CreateRGBSurface(0, w, h, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
-	SDL_RenderReadPixels(mainWindow_.GetRenderer(), NULL, SDL_PIXELFORMAT_ARGB8888, shot->pixels, shot->pitch);
+	shot = SDL_CreateRGBSurface(
+		0,
+		w, h,
+		32,
+		0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000
+	);
+	SDL_RenderReadPixels(
+		mainWindow_.GetRenderer(), NULL,
+		SDL_PIXELFORMAT_ARGB8888,
+		shot->pixels,
+		shot->pitch
+	);
 
 	/* Name file with date and time */
 	time(&currentTime);

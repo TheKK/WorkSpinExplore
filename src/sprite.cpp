@@ -10,11 +10,11 @@ Sprite::Sprite()
 {
 }
 
-Sprite::Sprite(string filePath, const Window& window,
+Sprite::Sprite(string filePath, SDL_Renderer* renderer,
 	       int w, int h,
 	       Uint8 r, Uint8 g, Uint8 b)
 {
-	LoadSheet(filePath, window, w, h, r, g, b);
+	LoadSheet(filePath, renderer, w, h, r, g, b);
 }
 
 Sprite::~Sprite()
@@ -23,15 +23,15 @@ Sprite::~Sprite()
 }
 
 int
-Sprite::LoadSheet(string filePath, const Window& window,
+Sprite::LoadSheet(string filePath, SDL_Renderer* renderer,
 	       int w, int h,
 	       Uint8 r, Uint8 g, Uint8 b)
 {
 	int sheetWidth, sheetHeight;
 
-	targetRenderer_ = window.GetRenderer();
+	targetRenderer_ = renderer;
 
-	sheet_ = ToolBox::LoadTexture(filePath, window);
+	sheet_ = ToolBox::LoadTexture(filePath, renderer);
 
 	rect_.x = 0;
 	rect_.y = 0;

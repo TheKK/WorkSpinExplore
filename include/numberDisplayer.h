@@ -14,7 +14,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-#include "window.h"
 #include "sprite.h"
 #include "renderable.h"
 
@@ -27,7 +26,7 @@ using namespace std;
 class NumberDisplayer : public Renderable
 {
 	public:
-		NumberDisplayer(const Window& window);
+		NumberDisplayer(SDL_Renderer* renderer);
 		~NumberDisplayer();
 
 		void Render();

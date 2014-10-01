@@ -8,10 +8,10 @@
 
 const static SDL_Rect viewport = {426, 0, 213, 360};
 
-ExploreGame::ExploreGame(const Window& window):
-	backGroundPicture_("exploreGameBG.png", window)
+ExploreGame::ExploreGame(SDL_Renderer* renderer):
+	backGroundPicture_("exploreGameBG.png", renderer)
 {
-	targetRenderer_ = window.GetRenderer();
+	targetRenderer_ = renderer;
 
 	backGroundPicture_.MoveTo(viewport.x, viewport.y);
 }

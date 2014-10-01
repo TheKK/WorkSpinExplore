@@ -10,7 +10,6 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 
-#include "window.h"
 #include "texture.h"
 #include "button.h"
 
@@ -19,7 +18,7 @@ using namespace std;
 class SpinGame
 {
 	public:
-		SpinGame(const Window& window);
+		SpinGame(SDL_Renderer* renderer);
 		~SpinGame();
 
 		void EventHandler(const SDL_Event& event);
@@ -27,7 +26,6 @@ class SpinGame
 		void Render();
 	private:
 		Texture backGroundPicture_;
-
 		Texture spinPicture_;
 
 		SDL_Renderer* targetRenderer_ = nullptr;

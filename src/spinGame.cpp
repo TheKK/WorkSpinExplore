@@ -8,11 +8,11 @@
 
 const static SDL_Rect viewport = {213, 0, 213, 360};
 
-SpinGame::SpinGame(const Window& window):
-	backGroundPicture_("spinGameBG.png", window),
-	spinPicture_("spin.png", window)
+SpinGame::SpinGame(SDL_Renderer* renderer):
+	backGroundPicture_("spinGameBG.png", renderer),
+	spinPicture_("spin.png", renderer)
 {
-	targetRenderer_ = window.GetRenderer();
+	targetRenderer_ = renderer;
 
 	/* Initialize according to viewport coordinate */
 	backGroundPicture_.MoveTo(viewport.x, viewport.y);

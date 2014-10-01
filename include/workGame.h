@@ -9,8 +9,8 @@
 
 #include <iostream>
 #include <SDL2/SDL.h>
+#include <lua.hpp>
 
-#include "window.h"
 #include "texture.h"
 #include "button.h"
 #include "numberDisplayer.h"
@@ -18,10 +18,15 @@
 
 using namespace std;
 
+//struct UI {
+	//const char* name = nullptr;
+	//Renderable* ptr = nullptr;
+//};
+
 class WorkGame
 {
 	public:
-		WorkGame(const Window& window);
+		WorkGame(SDL_Renderer* renderer);
 		~WorkGame();
 
 		void EventHandler(const SDL_Event& event);
@@ -33,9 +38,15 @@ class WorkGame
 		NumberDisplayer moneyDisplayer_;
 
 		SDL_Renderer* targetRenderer_;
+		//static const Window* window;
 
 		void TapTheButton_();
 		void ReleaseTheButton_();
+
+		//lua_State* L;
+		//static vector<struct UI> uiSet_;
+		//void LoadScript_();
+		//static int CreateButton_(lua_State* L);
 
 		void Release_();
 };

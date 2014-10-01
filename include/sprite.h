@@ -14,7 +14,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-#include "window.h"
 #include "renderable.h"
 
 #include "toolBox.h"
@@ -25,12 +24,12 @@ class Sprite : public Renderable
 {
 	public:
 		Sprite();
-		Sprite(string filePath, const Window& window,
+		Sprite(string filePath, SDL_Renderer* renderer,
 		       int w, int h,
 		       Uint8 r = 0, Uint8 g = 255, Uint8 = 255);
 		~Sprite();
 
-		int LoadSheet(string filePath, const Window& window,
+		int LoadSheet(string filePath, SDL_Renderer* renderer,
 			      int w, int h,
 			      Uint8 r = 0, Uint8 g = 255, Uint8 = 255);
 		void ReleaseSheet();

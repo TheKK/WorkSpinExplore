@@ -7,15 +7,16 @@
 #include "achievementBar.h"
 
 #define GAME_FPS	60
-
+#define GAME_WIDTH	640
+#define GAME_HEIGHT	360
 
 AchievementBar::AchievementBar()
 {
 }
 
-AchievementBar::AchievementBar(string barPicPath, const Window& window)
+AchievementBar::AchievementBar(string barPicPath, SDL_Renderer* renderer)
 {
-	Load(barPicPath, window);
+	Load(barPicPath, renderer);
 }
 
 AchievementBar::~AchievementBar()
@@ -24,7 +25,7 @@ AchievementBar::~AchievementBar()
 }
 
 void
-AchievementBar::Load(string barPicPath, const Window& window)
+AchievementBar::Load(string barPicPath, SDL_Renderer* renderer)
 {
 	//TODO: Improve this
 	vector<string> iconPath;
@@ -41,21 +42,20 @@ AchievementBar::Load(string barPicPath, const Window& window)
 	assert(texts.size() == ACHIEVEMENT_COUNT);
 
 	/* Loading */
-	barBackground_.LoadTexture(barPicPath, window);
+	barBackground_.LoadTexture(barPicPath, renderer);
 
 	for (int i = 0; i < ACHIEVEMENT_COUNT; i++)
-		icons_.push_back(new Texture(iconPath[i], window));
+		icons_.push_back(new Texture(iconPath[i], renderer));
 
 	texts_ = texts;
 
 	/* Set position */
-	barBackground_.MoveTo(
-		(window.Width() - barBackground_.Width()) / 2, 30);
+	barBackground_.MoveTo((GAME_WIDTH - barBackground_.Width()) / 2, 30);
 
 	for (auto& e : icons_)
 		e->MoveTo(barBackground_.PosX() + 4, barBackground_.PosY() + 4);
 
-	targetRenderer_ = window.GetRenderer();
+	targetRenderer_ = renderer;
 }
 
 void
@@ -76,7 +76,8 @@ AchievementBar::EventHandler(const SDL_Event& event)
 void
 AchievementBar::Update()
 {
-	for (auto& e : jobQueue) {
+	/* Update jobs' position according to their "frame" */
+	for (auto& e : jobQueue_) {
 		e.frame++;
 
 		if (e.frame > 180) {
@@ -96,16 +97,17 @@ AchievementBar::Update()
 		}
 	}
 
-	while (jobQueue.size() && jobQueue.front().shouldDie) {
-		delete jobQueue.front().text;
-		jobQueue.erase(jobQueue.begin());
+	/* Kill someone should die */
+	while (jobQueue_.size() && jobQueue_.front().shouldDie) {
+		delete jobQueue_.front().text;
+		jobQueue_.erase(jobQueue_.begin());
 	}
 }
 
 void
 AchievementBar::Render()
 {
-	for (auto& e : jobQueue) {
+	for (auto& e : jobQueue_) {
 		barBackground_.SetAlpha(e.alpha);
 		barBackground_.MoveYTo(e.barPosY);
 
@@ -118,9 +120,6 @@ AchievementBar::Render()
 		e.pic->Render();
 		e.text->Render();
 	}
-	//barBackground_.Render();
-	//icons_[ACHIEVEMENT_TEST]->Render();
-	//textLabel_.Render();
 }
 
 void
@@ -135,7 +134,7 @@ AchievementBar::SendJob(enum Achievements which)
 	msg.text->MoveTo(barBackground_.PosX() + 46,
 			  barBackground_.PosY() + 4);
 
-	jobQueue.push_back(msg);
+	jobQueue_.push_back(msg);
 }
 
 void
@@ -143,4 +142,7 @@ AchievementBar::Release_()
 {
 	for (Texture* e : icons_)
 		delete e;
+
+	for (struct AchievementMsg e : jobQueue_)
+	       delete e.text;
 }

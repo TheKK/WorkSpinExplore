@@ -10,10 +10,10 @@ Texture::Texture()
 {
 }
 
-Texture::Texture(string filePath, const Window& window,
+Texture::Texture(string filePath, SDL_Renderer* renderer,
 		 Uint8 r, Uint8 g, Uint8 b)
 {
-	LoadTexture(filePath, window, r, g, b);
+	LoadTexture(filePath, renderer, r, g, b);
 }
 
 Texture::~Texture()
@@ -22,11 +22,11 @@ Texture::~Texture()
 }
 
 void
-Texture::LoadTexture(string filePath, const Window& window,
+Texture::LoadTexture(string filePath, SDL_Renderer* renderer,
 		 Uint8 r, Uint8 g, Uint8 b)
 {
-	targetRenderer_ = window.GetRenderer();;
-	texture_ = ToolBox::LoadTexture(filePath, window, r, g, b);
+	targetRenderer_ = renderer;
+	texture_ = ToolBox::LoadTexture(filePath, renderer, r, g, b);
 
 	rect_.x = 0;
 	rect_.y = 0;

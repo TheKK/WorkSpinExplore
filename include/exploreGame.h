@@ -10,7 +10,6 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 
-#include "window.h"
 #include "texture.h"
 #include "button.h"
 
@@ -19,7 +18,7 @@ using namespace std;
 class ExploreGame
 {
 	public:
-		ExploreGame(const Window& window);
+		ExploreGame(SDL_Renderer* renderer);
 		~ExploreGame();
 
 		void EventHandler(const SDL_Event& event);

@@ -15,7 +15,6 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 
-#include "window.h"
 #include "texture.h"
 #include "textLabel.h"
 
@@ -44,10 +43,10 @@ class AchievementBar
 {
 	public:
 		AchievementBar();
-		AchievementBar(string barPicPath, const Window& window);
+		AchievementBar(string barPicPath, SDL_Renderer* renderer);
 		~AchievementBar();
 
-		void Load(string barPicPath, const Window& window);
+		void Load(string barPicPath, SDL_Renderer* renderer);
 
 		void EventHandler(const SDL_Event& event);
 		void Update();
@@ -60,7 +59,7 @@ class AchievementBar
 		vector<Texture*> icons_;
 		vector<string> texts_;
 
-		vector<struct AchievementMsg> jobQueue;
+		vector<struct AchievementMsg> jobQueue_;
 
 		SDL_Renderer* targetRenderer_ = nullptr;
 

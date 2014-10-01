@@ -11,7 +11,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-#include "window.h"
 #include "texture.h"
 #include "renderable.h"
 
@@ -31,12 +30,12 @@ class Button : public Renderable
 	public:
 		Button();
 		Button(string normalPicPath, string hoverPicPath,
-		       string pushPicPath, const Window& window,
+		       string pushPicPath, SDL_Renderer* renderer,
 		       Uint8 r = 0, Uint8 g = 255, Uint8 b = 255);
 		~Button();
 
 		void Load(string normalPicPath, string hoverPicPath,
-		       string pushPicPath, const Window& window,
+		       string pushPicPath, SDL_Renderer* renderer,
 		       Uint8 r = 0, Uint8 g = 255, Uint8 b = 255);
 
 		void Render();

@@ -34,6 +34,8 @@ class Renderable
 		int Width() const;
 		int Height() const;
 		SDL_Rect Rect() const;
+
+		bool MouseHovered(int32_t x, int32_t y);
 	protected:
 		SDL_Rect rect_ = {0, 0, 0, 0};
 

@@ -1,7 +1,7 @@
 #include "toolBox.h"
 
 SDL_Texture*
-ToolBox::LoadTexture(string filePath, const Window& window,
+ToolBox::LoadTexture(string filePath, SDL_Renderer* renderer,
 		     Uint8 r, Uint8 g, Uint8 b)
 {
 	SDL_Surface* loadedImage = nullptr;
@@ -18,7 +18,7 @@ ToolBox::LoadTexture(string filePath, const Window& window,
 	SDL_SetColorKey(loadedImage, SDL_TRUE,
 			SDL_MapRGB(loadedImage->format, r, g, b));
 
-	tex = SDL_CreateTextureFromSurface(window.GetRenderer(), loadedImage);
+	tex = SDL_CreateTextureFromSurface(renderer, loadedImage);
 	if (tex == nullptr) {
 		string errMsg("SDL error while converting surface: ");
 		errMsg += SDL_GetError();

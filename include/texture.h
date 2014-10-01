@@ -25,11 +25,11 @@ class Texture : public Renderable
 {
 	public:
 		Texture();
-		Texture(string filePath, const Window& window,
+		Texture(string filePath, SDL_Renderer* renderer,
 			Uint8 r = 0, Uint8 g = 255, Uint8 b = 255);
 		~Texture();
 
-		void LoadTexture(string filePath, const Window& window,
+		void LoadTexture(string filePath, SDL_Renderer* renderer,
 				Uint8 r = 0, Uint8 g = 255, Uint8 b = 255);
 
 		void Rotate(double value);
