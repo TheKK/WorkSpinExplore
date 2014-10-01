@@ -39,8 +39,7 @@ class Renderable
 	protected:
 		SDL_Rect rect_ = {0, 0, 0, 0};
 
-		SDL_Renderer* targetRenderer_;
-
+		SDL_Renderer* targetRenderer_ = nullptr;
 
 		bool visable_ = true;
 };

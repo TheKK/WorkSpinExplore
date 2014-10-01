@@ -36,6 +36,8 @@ InitSystem()
 		errMsg += SDL_GetError();
 		throw runtime_error(errMsg);
 	}
+
+	srand(time(nullptr));
 }
 
 void

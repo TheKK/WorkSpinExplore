@@ -6,39 +6,45 @@
 
 #include "numberDisplayer.h"
 
-NumberDisplayer::NumberDisplayer(SDL_Renderer* renderer):
-	numbers_("number.png", renderer, 30, 30)
+NumberDisplayer::NumberDisplayer(string picPath, uint8_t displayDigitalNum,
+				uint16_t digitalWidth, uint16_t digitalHeight,
+				 SDL_Renderer* renderer):
+	numbers_("number.png", renderer, digitalWidth, digitalHeight),
+	digitalNum_(displayDigitalNum)
 {
-	rect_.x = 0;
-	rect_.y = 0;
-	rect_.w = 120;
-	rect_.h = 30;
-	numbers_.SetSize(rect_.w / DISPLAY_NUMBER, rect_.h);
+	SetRenderer(renderer);
+
+	/* Set rendering size of this displayer */
+	SetSize(digitalWidth * displayDigitalNum, digitalHeight);
+
+	/* Set vector size and init value */
+	digitals_.resize(digitalNum_);
+	for (auto& e: digitals_)
+		e = 3;
 }
 
 NumberDisplayer::~NumberDisplayer()
 {
+	Release_();
 }
 
 void
-NumberDisplayer::AddNum(Uint8 value)
+NumberDisplayer::AddNum(uint32_t value)
 {
-	assert(value < 10);
+	uint32_t toNext = 0;
 
-	Uint8 toNext = 0;
-
-	displayValue_[DISPLAY_NUMBER - 1] += value;
-	if (displayValue_[DISPLAY_NUMBER - 1] > 9) {
-		displayValue_[DISPLAY_NUMBER - 1] -= 10;
+	digitals_[digitalNum_- 1] += value;
+	if (digitals_[digitalNum_ - 1] > 9) {
+		digitals_[digitalNum_ - 1] -= 10;
 		toNext = 1;
 	}
 
-	for (int i = DISPLAY_NUMBER - 2; i >= 0; i--) {
-		displayValue_[i] += toNext;
+	for (int i = digitalNum_ - 2; i >= 0; i--) {
+		digitals_[i] += toNext;
 
-		if (displayValue_[i] > 9) {
+		if (digitals_[i] > 9) {
 			toNext = 1;
-			displayValue_[i] -= 10;
+			digitals_[i] -= 10;
 		} else {
 			break;
 		}
@@ -48,19 +54,35 @@ NumberDisplayer::AddNum(Uint8 value)
 void
 NumberDisplayer::SetNum(int value)
 {
-	assert(value < pow(10, DISPLAY_NUMBER));
-	for (int i = 0; i < DISPLAY_NUMBER; i++) {
-		displayValue_[i] = value / pow(10, DISPLAY_NUMBER - 1 - i);
-		value -= pow(10, DISPLAY_NUMBER - 1 - i) *displayValue_[i];
+	assert(value < pow(10, digitalNum_));
+	for (int i = 0; i < digitalNum_; i++) {
+		digitals_[i] = value / pow(10, digitalNum_ - 1 - i);
+		value -= pow(10, digitalNum_ - 1 - i) *digitals_[i];
 	}
+}
+
+uint64_t
+NumberDisplayer::GetNum() const
+{
+	uint64_t toReturn = 0;
+
+	for (int i = 0; i < digitals_.size(); i++)
+		toReturn += (digitals_[i] * pow(10, digitals_.size() - i - 1));
+
+	return toReturn;
 }
 
 void
 NumberDisplayer::Render()
 {
-	for (int i = 0; i < DISPLAY_NUMBER; i++) {
+	for (int i = 0; i < digitalNum_; i++) {
 		numbers_.MoveTo((rect_.x + numbers_.Width() * i), rect_.y);
-		numbers_.JumpTo(displayValue_[i]);
+		numbers_.JumpTo(digitals_[i]);
 		numbers_.Render();
 	}
+}
+
+void
+NumberDisplayer::Release_()
+{
 }

@@ -14,23 +14,27 @@ const static SDL_Rect viewport = {0, 0, 213, 360};
 WorkGame::WorkGame(SDL_Renderer* renderer):
 	backGroundPicture_("workGameBG.png", renderer),
 	workButton_("normal.png", "hover.png", "push.png", renderer),
-	moneyDisplayer_(renderer)
+	moneyCounter_("./number.png", 4, 30, 30, renderer)
 {
 	//this->window = &window;
 	targetRenderer_ = renderer;
 
-	/* Set initial position to the coner of this viewport*/
+	/* Set initial position to the left upper coner of this viewport*/
 	backGroundPicture_.MoveTo(viewport.x, viewport.y);
 	workButton_.MoveTo(viewport.x, viewport.y);
-	moneyDisplayer_.MoveTo(viewport.x, viewport.y);
+	moneyCounter_.MoveTo(viewport.x, viewport.y);
 
 	/* Move these friends to their new place*/
 	workButton_.Move(
 		(viewport.w - workButton_.Width()) / 2,
 		(viewport.h - workButton_.Height()) / 2);
-	moneyDisplayer_.Move(
-		(viewport.w - moneyDisplayer_.Width()) / 2 - 30,
-		viewport.h - moneyDisplayer_.Height() - 10);
+	moneyCounter_.Move(
+		(viewport.w - moneyCounter_.Width()) / 2 - 30,
+		viewport.h - moneyCounter_.Height() - 10);
+
+	//TODO: make this looks great
+	renderableList_.push_back(&workButton_);
+	renderableList_.push_back(&moneyCounter_);
 
 	//LoadScript_();
 }
@@ -46,6 +50,27 @@ WorkGame::EventHandler(const SDL_Event& event)
 	switch (event.type) {
 	case SDL_KEYDOWN:
 		switch (event.key.keysym.sym) {
+		case SDLK_F11:
+			debugOff_ = !debugOff_;
+			if (debugOff_)
+				cout << "Debug mode off" << endl;
+			else
+				cout << "Debug mode on" << endl;
+			break;
+		case SDLK_w:
+			cout << "Num: " << moneyCounter_.GetNum() << endl;
+			break;
+		}
+		break;
+	case SDL_MOUSEMOTION:
+		if (debugOff_)
+			break;
+
+		for (Renderable* e : renderableList_) {
+			if (e->MouseHovered(event.motion.x, event.motion.y) &&
+			    event.motion.state == SDL_BUTTON_LMASK) {
+				e->Move(event.motion.xrel, event.motion.yrel);	
+			}
 		}
 		break;
 	case SDL_MOUSEBUTTONDOWN:
@@ -58,9 +83,24 @@ WorkGame::EventHandler(const SDL_Event& event)
 					//lua_getfield(L, -1, "clickFunc");
 					//lua_call(L, 0, 0);
 					//lua_pop(L, 1);
-					//cout << "Size: " << lua_gettop(L) << endl;
+					//cout << "Size: " <<
+					//lua_gettop(L) << endl;
 				//}
 			//}
+		}
+
+		/* Check current mode */
+		if (debugOff_)
+			break;
+
+		if (event.button.button == SDL_BUTTON_MIDDLE) {
+			for (Renderable* e : renderableList_) {
+				if (e->MouseHovered(event.button.x,
+						    event.button.y)) {
+					cout << "x: " << e->PosX() << endl;
+					cout << "y: " << e->PosY() << endl;
+				}
+			}
 		}
 		break;
 	case SDL_MOUSEBUTTONUP:
@@ -88,17 +128,15 @@ WorkGame::Render()
 {
 	backGroundPicture_.Render();
 
-	workButton_.Render();
-	moneyDisplayer_.Render();
-
-
+	for (auto& e : renderableList_)
+		e->Render();
 }
 
 void
 WorkGame::TapTheButton_()
 {
 	workButton_.ChangeState(BUTTON_PUSHED);
-	moneyDisplayer_.AddNum(1);
+	moneyCounter_.AddNum(1);
 }
 
 void

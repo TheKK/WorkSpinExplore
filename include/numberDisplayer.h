@@ -8,6 +8,7 @@
 #define NUMBER_DISPLAYER_H
 
 #include <iostream>
+#include <vector>
 #include <cassert>
 #include <cmath>
 #include <cstdlib>
@@ -19,23 +20,26 @@
 
 #include "toolBox.h"
 
-#define DISPLAY_NUMBER	4
-
 using namespace std;
 
 class NumberDisplayer : public Renderable
 {
 	public:
-		NumberDisplayer(SDL_Renderer* renderer);
+		NumberDisplayer(string picPath, uint8_t displayDigitalNum,
+				uint16_t digitalWidth, uint16_t digitalHeight,
+				SDL_Renderer* renderer);
 		~NumberDisplayer();
 
 		void Render();
 
-		void AddNum(Uint8 value);
+		void AddNum(uint32_t value);
 		void SetNum(int value);
+		uint64_t GetNum() const;
 	private:
 		Sprite numbers_;
-		Uint8 displayValue_[DISPLAY_NUMBER] = {1, 2, 3, 4};
+
+		vector<uint8_t> digitals_;
+		uint16_t digitalNum_;
 
 		void Release_();
 };

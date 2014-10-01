@@ -33,11 +33,15 @@ class WorkGame
 		void Update();
 		void Render();
 	private:
+		/* Graphical objects */
 		Texture backGroundPicture_;
 		Button workButton_;
-		NumberDisplayer moneyDisplayer_;
+		NumberDisplayer moneyCounter_;
+		vector<Renderable*> renderableList_;
 
-		SDL_Renderer* targetRenderer_;
+		SDL_Renderer* targetRenderer_ = nullptr;
+
+		bool debugOff_ = true;
 		//static const Window* window;
 
 		void TapTheButton_();
