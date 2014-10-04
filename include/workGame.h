@@ -13,6 +13,7 @@
 #include "texture.h"
 #include "button.h"
 #include "numberDisplayer.h"
+#include "sound.h"
 #include "userEvent.h"
 
 using namespace std;
@@ -39,6 +40,8 @@ class WorkGame
 		vector<Renderable*> renderableList_;
 
 		SDL_Renderer* targetRenderer_ = nullptr;
+
+		Sound buttonSound_;
 
 		bool debugOff_ = true;
 		//static const Window* window;

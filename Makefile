@@ -15,14 +15,16 @@ INCLUDE += $(shell pkg-config --cflags sdl2)
 INCLUDE += $(shell pkg-config --cflags SDL2_image)
 INCLUDE += $(shell pkg-config --cflags SDL2_ttf)
 INCLUDE += $(shell pkg-config --cflags lua)
-#INCLUDE += $(shell pkg-config --cflags openal)
+INCLUDE += $(shell pkg-config --cflags openal)
+INCLUDE += $(shell pkg-config --cflags alure)
 
 # Libs flags
 LIB += $(shell pkg-config --libs sdl2)
 LIB += $(shell pkg-config --libs SDL2_image)
 LIB += $(shell pkg-config --libs SDL2_ttf)
 LIB += $(shell pkg-config --libs lua)
-#LIB += $(shell pkg-config --libs openal)
+LIB += $(shell pkg-config --libs openal)
+LIB += $(shell pkg-config --libs alure)
 
 # Object files
 OBJ_PATH = $(PWD)/obj
@@ -43,6 +45,8 @@ OBJ = main.o			\
       renderable.o		\
       userEvent.o		\
       scriptManager.o		\
+      soundEngine.o		\
+      sound.o			\
 
 OUT_EXE = wse
 
@@ -62,6 +66,7 @@ tag:
 	@rm -f tags
 	@ctags -aR --fields=+l --c++-kinds=+px /usr/include/SDL2
 	@ctags -aR --fields=+l --c++-kinds=+px /usr/include/lua.hpp
+	@ctags -aR --fields=+l --c++-kinds=+px /usr/include/AL
 	@ctags -aR --fields=+l --c++-kinds=+px $(PWD)
 	@echo "===========[[Tags updated!!]]============"
 

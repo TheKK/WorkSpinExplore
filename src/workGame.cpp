@@ -14,7 +14,9 @@ const static SDL_Rect viewport = {0, 0, 213, 360};
 WorkGame::WorkGame(SDL_Renderer* renderer):
 	backGroundPicture_("workGameBG.png", renderer),
 	workButton_("normal.png", "hover.png", "push.png", renderer),
-	moneyCounter_("./number.png", 4, 30, 30, renderer)
+	moneyCounter_("number.png", 4, 30, 30, renderer),
+	buttonSound_("game/sounds/buttonSound.ogg")
+
 {
 	//this->window = &window;
 	targetRenderer_ = renderer;
@@ -69,7 +71,7 @@ WorkGame::EventHandler(const SDL_Event& event)
 		for (Renderable* e : renderableList_) {
 			if (e->MouseHovered(event.motion.x, event.motion.y) &&
 			    event.motion.state == SDL_BUTTON_LMASK) {
-				e->Move(event.motion.xrel, event.motion.yrel);	
+				e->Move(event.motion.xrel, event.motion.yrel);
 			}
 		}
 		break;
@@ -141,6 +143,7 @@ void
 WorkGame::TapTheButton_()
 {
 	workButton_.ChangeState(BUTTON_PUSHED);
+	buttonSound_.Play();
 	moneyCounter_.AddNum(1);
 }
 
@@ -184,10 +187,10 @@ WorkGame::ReleaseTheButton_()
 	//lua_getfield(L, -1, "name");
 	//name = lua_tostring(L, -1);
 	//lua_pop(L, 2);
-	
+
 	//Renderable* tmp = new Texture(string(filePath), *window);
 	//tmp->MoveTo(posX, posY);
-	
+
 	//struct UI tp;
 	//tp.name = name;
 	//tp.ptr = tmp;

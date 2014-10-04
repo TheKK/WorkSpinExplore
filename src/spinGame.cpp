@@ -54,7 +54,7 @@ SpinGame::EventHandler(const SDL_Event& event)
 		for (Renderable* e : renderableList_) {
 			if (e->MouseHovered(event.motion.x, event.motion.y) &&
 			    event.motion.state == SDL_BUTTON_LMASK) {
-				e->Move(event.motion.xrel, event.motion.yrel);	
+				e->Move(event.motion.xrel, event.motion.yrel);
 			}
 		}
 		break;
@@ -95,7 +95,7 @@ void
 SpinGame::Render()
 {
 	backGroundPicture_.Render();
-	
+
 	for (auto& e : renderableList_)
 		e->Render();
 }
