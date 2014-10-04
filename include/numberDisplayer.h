@@ -35,6 +35,8 @@ class NumberDisplayer : public Renderable
 		void AddNum(uint32_t value);
 		void SetNum(int value);
 		uint64_t GetNum() const;
+
+		void SetZero();
 	private:
 		Sprite numbers_;
 

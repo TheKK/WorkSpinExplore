@@ -9,12 +9,11 @@
 
 #include <iostream>
 #include <SDL2/SDL.h>
-#include <lua.hpp>
 
 #include "texture.h"
 #include "button.h"
 #include "numberDisplayer.h"
-#include "userEventControler.h"
+#include "userEvent.h"
 
 using namespace std;
 

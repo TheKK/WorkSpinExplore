@@ -41,8 +41,8 @@ OBJ = main.o			\
       achievementBar.o		\
       numberDisplayer.o		\
       renderable.o		\
-      userEventControler.o	\
-      scriptManager.o
+      userEvent.o		\
+      scriptManager.o		\
 
 OUT_EXE = wse
 

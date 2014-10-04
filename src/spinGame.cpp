@@ -77,6 +77,13 @@ SpinGame::EventHandler(const SDL_Event& event)
 		SpinSpin_(1);
 		break;
 	}
+
+	/* User define events */
+	if (event.type == UserEvent::eventID[USEREVENT_SPIN_COMFIRM])
+		monsterCounter_.AddNum(1);
+	if (event.type == UserEvent::eventID[USEREVENT_SPIN_REFUSE])
+		cout << "Not enough money" << endl;
+
 }
 
 void
@@ -96,19 +103,22 @@ SpinGame::Render()
 void
 SpinGame::SpinSpin_(int16_t degree)
 {
-	static int16_t rotateValue = 0;
+	/* To Save current degree */
+	static int16_t currentDegree = 0;
 
+	/* Make some critical "spin" */
 	if ((rand() % 10) == 1) {
 		spinPicture_.Rotate(degree * 10);
-		rotateValue += degree * 10;
+		currentDegree += degree * 10;
 	} else {
 		spinPicture_.Rotate(degree);
-		rotateValue += degree;
+		currentDegree += degree;
 	}
 
-	if (rotateValue >= 360) {
-		monsterCounter_.AddNum(1);
-		rotateValue -= 360;
+	/* Spin a round */
+	if (currentDegree >= 360) {
+		UserEvent::PushEvent(USEREVENT_SPIN_QUEST);
+		currentDegree -= 360;
 	}
 }
 

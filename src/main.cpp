@@ -9,7 +9,9 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
+
 #include "game.h"
+#include "userEvent.h"
 
 using namespace std;
 
@@ -23,6 +25,7 @@ InitSystem()
 		throw runtime_error(errMsg);
 	}
 
+	/* Make game "pixelate" */
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "0");
 
 	if (IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG) < 0) {
@@ -36,6 +39,8 @@ InitSystem()
 		errMsg += SDL_GetError();
 		throw runtime_error(errMsg);
 	}
+
+	UserEvent::Init();
 
 	srand(time(nullptr));
 }

@@ -19,6 +19,7 @@
 #include "window.h"
 #include "timer.h"
 #include "achievementBar.h"
+#include "userEvent.h"
 
 #define GAME_FPS	60
 
@@ -41,9 +42,6 @@ class Game
 		AchievementBar aBar_;
 
 		bool appIsRunning_;
-
-		bool got = false;
-		int mousePushCount = 0;
 
 		void EventHandler_(const SDL_Event& event);
 		void Update_();

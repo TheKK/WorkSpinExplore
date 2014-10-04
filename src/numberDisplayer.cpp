@@ -19,8 +19,8 @@ NumberDisplayer::NumberDisplayer(string picPath, uint8_t displayDigitalNum,
 
 	/* Set vector size and init value */
 	digitals_.resize(digitalNum_);
-	for (auto& e: digitals_)
-		e = 3;
+
+	SetZero();
 }
 
 NumberDisplayer::~NumberDisplayer()
@@ -57,7 +57,7 @@ NumberDisplayer::SetNum(int value)
 	assert(value < pow(10, digitalNum_));
 	for (int i = 0; i < digitalNum_; i++) {
 		digitals_[i] = value / pow(10, digitalNum_ - 1 - i);
-		value -= pow(10, digitalNum_ - 1 - i) *digitals_[i];
+		value -= pow(10, digitalNum_ - 1 - i) * digitals_[i];
 	}
 }
 
@@ -70,6 +70,13 @@ NumberDisplayer::GetNum() const
 		toReturn += (digitals_[i] * pow(10, digitals_.size() - i - 1));
 
 	return toReturn;
+}
+
+void
+NumberDisplayer::SetZero()
+{
+	for (auto& e: digitals_)
+		e = 0;
 }
 
 void

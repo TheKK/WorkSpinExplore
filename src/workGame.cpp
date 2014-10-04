@@ -107,14 +107,19 @@ WorkGame::EventHandler(const SDL_Event& event)
 		if (event.button.button == SDL_BUTTON_LEFT)
 			ReleaseTheButton_();
 		break;
-	case SDL_USEREVENT:
-		if (event.user.type == UserEvents::UserEvent1)
-			cout << "event1 got" << endl;
-		else if (event.user.type == UserEvents::UserEvent2)
-			cout << "event2 got" << endl;
-		else
-			cout << event.user.type << endl;
-		break;
+	}
+
+	/* User define events */
+	if (event.type == UserEvent::eventID[USEREVENT_SPIN_QUEST]) {
+		int currentMoney = moneyCounter_.GetNum();
+		currentMoney -= 150;
+
+		if (currentMoney < 0)
+			UserEvent::PushEvent(USEREVENT_SPIN_REFUSE);
+		else {
+			UserEvent::PushEvent(USEREVENT_SPIN_COMFIRM);
+			moneyCounter_.SetNum(currentMoney);
+		}
 	}
 }
 

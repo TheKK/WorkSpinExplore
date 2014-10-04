@@ -64,8 +64,7 @@ Game::EventHandler_(const SDL_Event &event)
 		}
 		break;
 	case SDL_MOUSEBUTTONDOWN:
-		if (event.button.button == SDL_BUTTON_LEFT)
-			mousePushCount++;
+		break;
 	}
 
 	workGame_.EventHandler(event);
@@ -73,11 +72,6 @@ Game::EventHandler_(const SDL_Event &event)
 	exploreGame_.EventHandler(event);
 
 	aBar_.EventHandler(event);
-
-	if (!got && mousePushCount == 20) {
-		aBar_.SendJob(ACHIEVEMENT_MOUSE_CLICK_20);
-		got = true;
-	}
 }
 
 void
