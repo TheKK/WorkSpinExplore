@@ -6,12 +6,20 @@
 
 #include "renderable.h"
 
+uint32_t Renderable::objectCount_ = 0;
+
 Renderable::Renderable()
 {
+	objectCount_++;
+	SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION,
+		     "Renderable object cound: %d\n", objectCount_);
 }
 
 Renderable::~Renderable()
 {
+	objectCount_--;
+	SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION,
+		     "Renderable object cound: %d\n", objectCount_);
 }
 
 void

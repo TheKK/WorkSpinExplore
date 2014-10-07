@@ -26,6 +26,7 @@ class Sound
 		void LoadSoundFile(string filePath);
 
 		void SetSourcePosition(ALint x, ALint y, ALint z);
+		void SetSourcePosition(ALfloat x, ALfloat y, ALfloat z);
 
 		//Sound control
 		void Play();
@@ -34,10 +35,6 @@ class Sound
 	private:
 		ALuint source_;
 		ALuint buffer_;
-
-		ALint sourcePosX_ = 0;
-		ALint sourcePosY_ = 0;
-		ALint sourcePosZ_ = 0;
 
 		void Release_();
 };

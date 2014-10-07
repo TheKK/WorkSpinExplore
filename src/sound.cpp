@@ -44,11 +44,13 @@ Sound::LoadSoundFile(string filePath)
 void
 Sound::SetSourcePosition(ALint x, ALint y, ALint z)
 {
-	sourcePosX_ = x;
-	sourcePosY_ = y;
-	sourcePosZ_ = z;
-
 	alSource3i(source_, AL_POSITION, x, y, z);
+}
+
+void
+Sound::SetSourcePosition(ALfloat x, ALfloat y, ALfloat z)
+{
+	alSource3f(source_, AL_POSITION, x, y, z);
 }
 
 void

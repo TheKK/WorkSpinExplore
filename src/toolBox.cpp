@@ -4,15 +4,18 @@ SDL_Texture*
 ToolBox::LoadTexture(string filePath, SDL_Renderer* renderer,
 		     Uint8 r, Uint8 g, Uint8 b)
 {
+	SDL_assert(renderer != nullptr);
+
 	SDL_Surface* loadedImage = nullptr;
 	SDL_Texture* tex = nullptr;
-	string basePath = SDL_GetBasePath();	/* Using absolute path here */
+	string basePath = SDL_GetBasePath();
 
 	loadedImage = IMG_Load((basePath + filePath).c_str());
 	if (loadedImage == nullptr) {
-		string errMsg("SDL error while loading ");
-		errMsg += (filePath + ": " + IMG_GetError());
-		throw runtime_error(errMsg);
+		string errMsg("IMG error while opening: ");
+		errMsg += IMG_GetError();
+		SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION, errMsg.c_str());
+		return nullptr;
 	}
 
 	SDL_SetColorKey(loadedImage, SDL_TRUE,
@@ -22,7 +25,7 @@ ToolBox::LoadTexture(string filePath, SDL_Renderer* renderer,
 	if (tex == nullptr) {
 		string errMsg("SDL error while converting surface: ");
 		errMsg += SDL_GetError();
-		throw runtime_error(errMsg);
+		SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION, errMsg.c_str());
 	}
 
 	SDL_SetTextureBlendMode(tex, SDL_BLENDMODE_BLEND);

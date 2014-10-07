@@ -54,7 +54,7 @@ NumberDisplayer::AddNum(uint32_t value)
 void
 NumberDisplayer::SetNum(int value)
 {
-	assert(value < pow(10, digitalNum_));
+	SDL_assert(value < pow(10, digitalNum_));
 	for (int i = 0; i < digitalNum_; i++) {
 		digitals_[i] = value / pow(10, digitalNum_ - 1 - i);
 		value -= pow(10, digitalNum_ - 1 - i) * digitals_[i];

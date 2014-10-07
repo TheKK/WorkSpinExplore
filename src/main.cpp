@@ -53,13 +53,13 @@ InitSystem()
 
 	if (IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG) < 0) {
 		string errMsg("Error while initialize SDL2_image: ");
-		errMsg += SDL_GetError();
+		errMsg += IMG_GetError();
 		throw runtime_error(errMsg);
 	}
 
 	if (TTF_Init() < 0) {
 		string errMsg("Error while initialize SDL2_ttf: ");
-		errMsg += SDL_GetError();
+		errMsg += TTF_GetError();
 		throw runtime_error(errMsg);
 	}
 
@@ -70,9 +70,10 @@ InitSystem()
 	/* Make game "pixelate" */
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "0");
 
-	srand(time(nullptr));
+	/* Set application log's priority to DEBUG */
+	SDL_LogSetPriority(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG);
 
-	SDL_LogSetPriority(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO);
+	srand(time(nullptr));
 
 	PrintVersionInfo();
 }

@@ -42,6 +42,8 @@ class Renderable
 		SDL_Renderer* targetRenderer_ = nullptr;
 
 		bool visable_ = true;
+
+		static uint32_t objectCount_;
 };
 
 #endif	/* RENDERABLE_H */

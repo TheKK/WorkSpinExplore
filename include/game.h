@@ -20,6 +20,7 @@
 #include "timer.h"
 #include "achievementBar.h"
 #include "userEvent.h"
+#include "sound.h"
 
 #define GAME_FPS	60
 
