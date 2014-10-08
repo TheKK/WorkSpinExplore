@@ -9,9 +9,9 @@
 const static SDL_Rect viewport = {213, 0, 213, 360};
 
 SpinGame::SpinGame(SDL_Renderer* renderer):
-	backGroundPicture_("spinGameBG.png", renderer),
-	spinPicture_("spin.png", renderer),
-	monsterCounter_("number.png", 4, 30, 30, renderer)
+	backGroundPicture_("game/images/spinGameBG.png", renderer),
+	spinPicture_("game/images/spin.png", renderer),
+	monsterCounter_("game/images/number.png", 4, 30, 30, renderer)
 {
 	targetRenderer_ = renderer;
 

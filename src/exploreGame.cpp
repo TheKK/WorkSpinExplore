@@ -9,7 +9,7 @@
 const static SDL_Rect viewport = {426, 0, 213, 360};
 
 ExploreGame::ExploreGame(SDL_Renderer* renderer):
-	backGroundPicture_("exploreGameBG.png", renderer)
+	backGroundPicture_("game/images/exploreGameBG.png", renderer)
 {
 	targetRenderer_ = renderer;
 

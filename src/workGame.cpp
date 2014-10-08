@@ -12,11 +12,12 @@ const static SDL_Rect viewport = {0, 0, 213, 360};
 //vector<struct UI> WorkGame::uiSet_;
 
 WorkGame::WorkGame(SDL_Renderer* renderer):
-	backGroundPicture_("workGameBG.png", renderer),
-	workButton_("normal.png", "hover.png", "push.png", renderer),
-	moneyCounter_("number.png", 4, 30, 30, renderer),
+	backGroundPicture_("game/images/workGameBG.png", renderer),
+	workButton_("game/images/normal.png",
+		    "game/images/hover.png",
+		    "game/images/push.png", renderer),
+	moneyCounter_("game/images/number.png", 4, 30, 30, renderer),
 	buttonSound_("game/sounds/buttonSound.ogg")
-
 {
 	//this->window = &window;
 	targetRenderer_ = renderer;

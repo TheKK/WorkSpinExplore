@@ -17,8 +17,8 @@ Game::Game():
 	workGame_(mainWindow_.GetRenderer()),
 	spinGame_(mainWindow_.GetRenderer()),
 	exploreGame_(mainWindow_.GetRenderer()),
-	aBar_("achievementBar.png", mainWindow_.GetRenderer()),
-	pause_("pause.png", mainWindow_.GetRenderer()),
+	aBar_("game/images/achievementBar.png", mainWindow_.GetRenderer()),
+	pause_("game/images/pause.png", mainWindow_.GetRenderer()),
 	pauseSound_("game/sounds/pauseSound.ogg")
 {
 	pause_.SetAlpha(250);

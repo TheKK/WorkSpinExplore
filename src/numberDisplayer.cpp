@@ -9,7 +9,7 @@
 NumberDisplayer::NumberDisplayer(string picPath, uint8_t displayDigitalNum,
 				uint16_t digitalWidth, uint16_t digitalHeight,
 				 SDL_Renderer* renderer):
-	numbers_("number.png", renderer, digitalWidth, digitalHeight),
+	numbers_(picPath, renderer, digitalWidth, digitalHeight),
 	digitalNum_(displayDigitalNum)
 {
 	SetRenderer(renderer);

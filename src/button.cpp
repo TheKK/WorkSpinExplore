@@ -23,11 +23,11 @@ Button::Load(string normalPicPath, string hoverPicPath, string pushPicPath,
 {
 	SetRenderer(renderer);
 
-	pic_[BUTTON_NORMAL] = ToolBox::LoadTexture("normal.png", renderer,
+	pic_[BUTTON_NORMAL] = ToolBox::LoadTexture(normalPicPath, renderer,
 						   r, g, b);
-	pic_[BUTTON_HOVERED] = ToolBox::LoadTexture("hover.png", renderer,
+	pic_[BUTTON_HOVERED] = ToolBox::LoadTexture(hoverPicPath, renderer,
 						    r, g, b);
-	pic_[BUTTON_PUSHED] = ToolBox::LoadTexture("push.png", renderer,
+	pic_[BUTTON_PUSHED] = ToolBox::LoadTexture(pushPicPath, renderer,
 						   r, g, b);
 
 	SDL_QueryTexture(pic_[BUTTON_NORMAL], nullptr, nullptr,

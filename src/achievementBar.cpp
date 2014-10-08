@@ -23,14 +23,14 @@ AchievementBar::Load(string barPicPath, SDL_Renderer* renderer)
 	//TODO: Improve this
 	int width;
 	vector<string> iconPath;
-	
+
 	/* Set Background image and set position */
 	SDL_RenderGetLogicalSize(renderer,&width, nullptr);
 	barBackground_.MoveTo((width - barBackground_.Width()) / 2, 30);
 
 	/* Loading icons */
-	iconPath.emplace_back(string("achievementIcon1.png"));
-	iconPath.emplace_back(string("achievementIcon1.png"));
+	iconPath.emplace_back(string("game/images/achievementIcon1.png"));
+	iconPath.emplace_back(string("game/images/achievementIcon1.png"));
 	SDL_assert_paranoid(iconPath.size() == ACHIEVEMENT_COUNT);
 
 	icons_.resize(ACHIEVEMENT_COUNT);
@@ -132,5 +132,5 @@ void
 AchievementBar::Release_()
 {
 	for (struct AchievementMsg e : jobQueue_)
-	       delete e.text;
+				       delete e.text;
 }
