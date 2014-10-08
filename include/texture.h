@@ -29,13 +29,15 @@ class Texture : public Renderable
 			Uint8 r = 0, Uint8 g = 255, Uint8 b = 255);
 		~Texture();
 
-		void LoadTexture(string filePath, SDL_Renderer* renderer,
+		void Load(string filePath, SDL_Renderer* renderer,
 				Uint8 r = 0, Uint8 g = 255, Uint8 b = 255);
 
 		void Rotate(double value);
 
 		void SetAlpha(Uint8 value);
 		SDL_Texture* Object() const;
+
+		void SetBlendMode(SDL_BlendMode mode);
 
 		void Render();
 		void RenderFullWindow();

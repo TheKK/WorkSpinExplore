@@ -13,7 +13,7 @@ Texture::Texture()
 Texture::Texture(string filePath, SDL_Renderer* renderer,
 		 Uint8 r, Uint8 g, Uint8 b)
 {
-	LoadTexture(filePath, renderer, r, g, b);
+	Load(filePath, renderer, r, g, b);
 }
 
 Texture::~Texture()
@@ -22,7 +22,7 @@ Texture::~Texture()
 }
 
 void
-Texture::LoadTexture(string filePath, SDL_Renderer* renderer,
+Texture::Load(string filePath, SDL_Renderer* renderer,
 		 Uint8 r, Uint8 g, Uint8 b)
 {
 	targetRenderer_ = renderer;
@@ -57,8 +57,19 @@ Texture::Object() const
 }
 
 void
+Texture::SetBlendMode(SDL_BlendMode mode)
+{
+	SDL_assert_paranoid(texture_ != nullptr);
+
+	SDL_SetTextureBlendMode(texture_, mode);
+}
+
+void
 Texture::Render()
 {
+	if (!visable_)
+		return;
+
 	SDL_RenderCopyEx(targetRenderer_, texture_, nullptr, &rect_,
 			 degree_, nullptr, SDL_FLIP_NONE);
 }
@@ -66,6 +77,9 @@ Texture::Render()
 void
 Texture::RenderFullWindow()
 {
+	if (!visable_)
+		return;
+
 	SDL_RenderCopy(targetRenderer_, texture_, nullptr, nullptr);
 }
 

@@ -6,15 +6,8 @@
 
 #include "achievementBar.h"
 
-#define GAME_FPS	60
-#define GAME_WIDTH	640
-#define GAME_HEIGHT	360
-
-AchievementBar::AchievementBar()
-{
-}
-
-AchievementBar::AchievementBar(string barPicPath, SDL_Renderer* renderer)
+AchievementBar::AchievementBar(string barPicPath, SDL_Renderer* renderer):
+	barBackground_(barPicPath, renderer)
 {
 	Load(barPicPath, renderer);
 }
@@ -28,32 +21,29 @@ void
 AchievementBar::Load(string barPicPath, SDL_Renderer* renderer)
 {
 	//TODO: Improve this
+	int width;
 	vector<string> iconPath;
-	vector<string> texts;
+	
+	/* Set Background image and set position */
+	SDL_RenderGetLogicalSize(renderer,&width, nullptr);
+	barBackground_.MoveTo((width - barBackground_.Width()) / 2, 30);
 
+	/* Loading icons */
 	iconPath.emplace_back(string("achievementIcon1.png"));
 	iconPath.emplace_back(string("achievementIcon1.png"));
+	SDL_assert_paranoid(iconPath.size() == ACHIEVEMENT_COUNT);
 
-	texts.emplace_back(string("This is a test"));
-	texts.emplace_back(string("Click mouse 20 times!"));
-	//END OF TODO
-
-	assert(iconPath.size() == ACHIEVEMENT_COUNT);
-	assert(texts.size() == ACHIEVEMENT_COUNT);
-
-	/* Loading */
-	barBackground_.LoadTexture(barPicPath, renderer);
-
+	icons_.resize(ACHIEVEMENT_COUNT);
 	for (int i = 0; i < ACHIEVEMENT_COUNT; i++)
-		icons_.push_back(new Texture(iconPath[i], renderer));
-
-	texts_ = texts;
-
-	/* Set position */
-	barBackground_.MoveTo((GAME_WIDTH - barBackground_.Width()) / 2, 30);
+		icons_[i].Load(iconPath[i], renderer);
 
 	for (auto& e : icons_)
-		e->MoveTo(barBackground_.PosX() + 4, barBackground_.PosY() + 4);
+		e.MoveTo(barBackground_.PosX() + 4, barBackground_.PosY() + 4);
+
+	/* Loading texts */
+	texts_.emplace_back(string("This is a test"));
+	texts_.emplace_back(string("Click mouse 20 times!"));
+	SDL_assert_paranoid(texts_.size() == ACHIEVEMENT_COUNT);
 
 	targetRenderer_ = renderer;
 }
@@ -70,6 +60,7 @@ AchievementBar::EventHandler(const SDL_Event& event)
 		case SDLK_r:
 			break;
 		}
+		break;
 	}
 }
 
@@ -128,7 +119,7 @@ AchievementBar::SendJob(enum Achievements which)
 	struct AchievementMsg msg;
 	SDL_Color textColor = {0, 0, 0, 255};
 
-	msg.pic = icons_[which];
+	msg.pic = &icons_[which];
 	msg.text = new TextLabel("minecraftia/Minecraftia-Regular.ttf", 11,
 				 texts_[which], textColor, targetRenderer_);
 	msg.text->MoveTo(barBackground_.PosX() + 46,
@@ -140,9 +131,6 @@ AchievementBar::SendJob(enum Achievements which)
 void
 AchievementBar::Release_()
 {
-	for (Texture* e : icons_)
-		delete e;
-
 	for (struct AchievementMsg e : jobQueue_)
 	       delete e.text;
 }

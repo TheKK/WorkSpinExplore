@@ -42,7 +42,6 @@ struct AchievementMsg
 class AchievementBar
 {
 	public:
-		AchievementBar();
 		AchievementBar(string barPicPath, SDL_Renderer* renderer);
 		~AchievementBar();
 
@@ -56,7 +55,7 @@ class AchievementBar
 	private:
 		Texture barBackground_;
 
-		vector<Texture*> icons_;
+		vector<Texture> icons_;
 		vector<string> texts_;
 
 		vector<struct AchievementMsg> jobQueue_;

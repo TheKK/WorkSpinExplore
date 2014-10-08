@@ -35,6 +35,11 @@ class Renderable
 		int Height() const;
 		SDL_Rect Rect() const;
 
+		void Hide();
+		void Show();
+		void SetVisable(bool value);
+		bool GetVisable() const;
+
 		bool MouseHovered(int32_t x, int32_t y);
 	protected:
 		SDL_Rect rect_ = {0, 0, 0, 0};

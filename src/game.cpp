@@ -18,12 +18,19 @@ Game::Game():
 	spinGame_(mainWindow_.GetRenderer()),
 	exploreGame_(mainWindow_.GetRenderer()),
 	aBar_("achievementBar.png", mainWindow_.GetRenderer()),
-	appIsRunning_(true)
+	pause_("pause.png", mainWindow_.GetRenderer()),
+	pauseSound_("game/sounds/pauseSound.ogg")
 {
+	pause_.SetAlpha(250);
+	pause_.Hide();
+	pause_.SetBlendMode(SDL_BLENDMODE_MOD);
+
+	SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "game class created");
 }
 
 Game::~Game()
 {
+	Release_();
 }
 
 void
@@ -58,6 +65,9 @@ Game::EventHandler_(const SDL_Event &event)
 		case SDLK_q:
 			appIsRunning_ = false;
 			break;
+		case SDLK_p:
+			TogglePause_();
+			break;
 		case SDLK_F12:
 			ScreenShot_();
 			break;
@@ -67,21 +77,25 @@ Game::EventHandler_(const SDL_Event &event)
 		break;
 	}
 
-	workGame_.EventHandler(event);
-	spinGame_.EventHandler(event);
-	exploreGame_.EventHandler(event);
+	if (!appIsPausing_) {
+		workGame_.EventHandler(event);
+		spinGame_.EventHandler(event);
+		exploreGame_.EventHandler(event);
 
-	aBar_.EventHandler(event);
+		aBar_.EventHandler(event);
+	}
 }
 
 void
 Game::Update_()
 {
-	workGame_.Update();
-	spinGame_.Update();
-	exploreGame_.Update();
-	
-	aBar_.Update();
+	if (!appIsPausing_) {
+		workGame_.Update();
+		spinGame_.Update();
+		exploreGame_.Update();
+
+		aBar_.Update();
+	}
 }
 
 void
@@ -92,10 +106,22 @@ Game::Render_()
 		workGame_.Render();
 		spinGame_.Render();
 		exploreGame_.Render();
-		
+
 		aBar_.Render();
+
+		pause_.RenderFullWindow();
 	}
 	mainWindow_.Present();
+}
+
+void
+Game::TogglePause_()
+{
+	appIsPausing_ = !appIsPausing_;
+
+	pause_.SetVisable(appIsPausing_);
+	if (appIsPausing_)
+		pauseSound_.Play();
 }
 
 void
@@ -126,9 +152,9 @@ Game::ScreenShot_()
 	/* Name file with date and time */
 	time(&currentTime);
 	timeinfo = localtime(&currentTime);
-	strftime(fileName, 30, "%F:%T.bmp", timeinfo);
+	strftime(fileName, 30, "%F:%T.png", timeinfo);
 
-	SDL_SaveBMP(shot, fileName);
+	IMG_SavePNG(shot, fileName);
 
 	SDL_FreeSurface(shot);
 }
@@ -136,4 +162,5 @@ Game::ScreenShot_()
 void
 Game::Release_()
 {
+	SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "game class released");
 }

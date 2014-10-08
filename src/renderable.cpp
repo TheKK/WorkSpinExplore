@@ -99,6 +99,29 @@ Renderable::Rect() const
 	return rect_;
 }
 
+void
+Renderable::Hide()
+{
+	visable_ = false;
+}
+
+void
+Renderable::Show()
+{
+	visable_ = true;
+}
+
+void
+Renderable::SetVisable(bool value)
+{
+	visable_ = value;
+}
+
+bool
+Renderable::GetVisable() const
+{
+	return visable_;
+}
 bool
 Renderable::MouseHovered(int32_t x, int32_t y)
 {

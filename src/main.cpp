@@ -14,6 +14,13 @@
 #include "userEvent.h"
 #include "soundEngine.h"
 
+#ifndef SDL_ASSERT_LEVEL
+	#define SDL_ASSERT_LEVEL	3
+#else
+	#undef SDL_ASSERT_LEVEL
+	#define SDL_ASSERT_LEVEL	3
+#endif
+
 using namespace std;
 
 void PrintVersionInfo()
@@ -81,6 +88,8 @@ InitSystem()
 void
 CleanUp()
 {
+	SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Exit successes");
+
 	SDL_Quit();
 	IMG_Quit();
 	TTF_Quit();

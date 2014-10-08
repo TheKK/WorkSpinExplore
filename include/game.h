@@ -42,12 +42,18 @@ class Game
 		
 		AchievementBar aBar_;
 
-		bool appIsRunning_;
+		Texture pause_;
+
+		Sound pauseSound_;
+
+		bool appIsRunning_ = true;
+		bool appIsPausing_ = false;
 
 		void EventHandler_(const SDL_Event& event);
 		void Update_();
 		void Render_();
 
+		void TogglePause_();
 		void ScreenShot_();
 
 		void Release_();
