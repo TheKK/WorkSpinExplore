@@ -11,15 +11,13 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-#include "texture.h"
 #include "renderable.h"
-
-#include "toolBox.h"
+#include "texture.h"
 
 using namespace std;
 
 enum ButtonState {
-	BUTTON_NORMAL = 0x00,
+	BUTTON_NORMAL = 0,
 	BUTTON_HOVERED,
 	BUTTON_PUSHED,
 	BUTTON_STATE_NUM
@@ -40,10 +38,11 @@ class Button : public Renderable
 
 		void Render();
 
-		bool MouseHoverd(int mousePosX, int mousePosY);
+		void SetAlpha(uint8_t value);
+
 		void ChangeState(enum ButtonState buttonState);
 	private:
-		SDL_Texture* pic_[BUTTON_STATE_NUM];
+		SDL_Texture* pics_[BUTTON_STATE_NUM];
 
 		enum ButtonState buttonState_ = BUTTON_NORMAL;
 

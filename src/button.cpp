@@ -23,14 +23,11 @@ Button::Load(string normalPicPath, string hoverPicPath, string pushPicPath,
 {
 	SetRenderer(renderer);
 
-	pic_[BUTTON_NORMAL] = ToolBox::LoadTexture(normalPicPath, renderer,
-						   r, g, b);
-	pic_[BUTTON_HOVERED] = ToolBox::LoadTexture(hoverPicPath, renderer,
-						    r, g, b);
-	pic_[BUTTON_PUSHED] = ToolBox::LoadTexture(pushPicPath, renderer,
-						   r, g, b);
+	pics_[BUTTON_NORMAL] = LoadTexture(normalPicPath, renderer, r, g, b);
+	pics_[BUTTON_HOVERED] = LoadTexture(hoverPicPath, renderer, r, g, b);
+	pics_[BUTTON_PUSHED] = LoadTexture(pushPicPath, renderer, r, g, b);
 
-	SDL_QueryTexture(pic_[BUTTON_NORMAL], nullptr, nullptr,
+	SDL_QueryTexture(pics_[BUTTON_NORMAL], nullptr, nullptr,
 			 &rect_.w, &rect_.h);
 
 	buttonState_ = BUTTON_NORMAL;
@@ -39,19 +36,14 @@ Button::Load(string normalPicPath, string hoverPicPath, string pushPicPath,
 void
 Button::Render()
 {
-	SDL_RenderCopy(targetRenderer_, pic_[buttonState_], nullptr, &rect_);
+	SDL_RenderCopy(targetRenderer_, pics_[buttonState_], nullptr, &rect_);
 }
 
-bool
-Button::MouseHoverd(int mousePosX, int mousePosY)
+void
+Button::SetAlpha(uint8_t value)
 {
-	if (
-		mousePosX < (rect_.x + rect_.w) && mousePosX > rect_.x &&
-		mousePosY < (rect_.y + rect_.h) && mousePosY > rect_.y
-	)
-		return true;
-	else
-		return false;
+	for (SDL_Texture* e : pics_)
+		SDL_SetTextureAlphaMod(e, value);
 }
 
 void
@@ -63,7 +55,7 @@ Button::ChangeState(enum ButtonState newState)
 void
 Button::Release_()
 {
-	for (SDL_Texture* e : pic_) {
+	for (SDL_Texture* e : pics_) {
 		if (e != nullptr)
 			SDL_DestroyTexture(e);
 		e = nullptr;

@@ -8,16 +8,11 @@
 #define TEXTURE_H
 
 #include <iostream>
-#include <functional>
 #include <string>
-#include <cstdio>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-#include "window.h"
 #include "renderable.h"
-
-#include "toolBox.h"
 
 using namespace std;
 

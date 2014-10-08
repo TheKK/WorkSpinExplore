@@ -11,24 +11,34 @@ TextLabel::TextLabel()
 }
 
 TextLabel::TextLabel(string fontPath, int fontSize, string text,
-		     SDL_Color color, SDL_Renderer* renderer)
+		     SDL_Color* color, SDL_Renderer* renderer)
 {
-	SetRenderer(renderer);
+	Load(fontPath, fontSize, text, color, renderer);
+}
+
+TextLabel::~TextLabel()
+{
+	Release_();
+}
+
+void
+TextLabel::Load(string fontPath, int fontSize, string text,
+		SDL_Color* color, SDL_Renderer* renderer)
+{
+	SDL_assert(renderer);
+
+	targetRenderer_ = renderer;
 	OpenFont(fontPath, fontSize);
 	SetText(text);
 	SetColor(color);
 	RenderToTexture();
 }
 
-TextLabel::~TextLabel()
-{
-	CloseFont();
-	ReleaseTexture();
-}
-
 void
 TextLabel::OpenFont(string fontPath, int fontSize)
 {
+	SDL_assert(font_ == nullptr);
+
 	string basePath = SDL_GetBasePath();
 
 	font_ = TTF_OpenFont((basePath + fontPath).c_str(), fontSize);
@@ -42,8 +52,9 @@ TextLabel::OpenFont(string fontPath, int fontSize)
 void
 TextLabel::CloseFont()
 {
-	if (font_ != nullptr)
-		TTF_CloseFont(font_);
+	SDL_assert(font_ != nullptr);
+
+	TTF_CloseFont(font_);
 	font_ = nullptr;
 }
 
@@ -82,8 +93,9 @@ TextLabel::RenderToTexture()
 void
 TextLabel::ReleaseTexture()
 {
-	if (texture_ != nullptr)
-		SDL_DestroyTexture(texture_);
+	SDL_assert(texture_ != nullptr);
+
+	SDL_DestroyTexture(texture_);
 	texture_ = nullptr;
 }
 
@@ -99,12 +111,26 @@ TextLabel::SetLineWidth(int width)
 }
 
 void
-TextLabel::SetColor(SDL_Color color)
+TextLabel::SetColor(SDL_Color* color)
 {
-	color_ = color;
+	color_ = *color;
 }
+
+void
+TextLabel::SetAlpha(uint8_t value)
+{
+	SDL_SetTextureAlphaMod(texture_, value);
+}
+
 void
 TextLabel::Render()
 {
 	SDL_RenderCopy(targetRenderer_, texture_, nullptr, &rect_);
+}
+
+void
+TextLabel::Release_()
+{
+	CloseFont();
+	ReleaseTexture();
 }

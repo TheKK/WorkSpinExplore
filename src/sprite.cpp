@@ -14,24 +14,24 @@ Sprite::Sprite(string filePath, SDL_Renderer* renderer,
 	       int w, int h,
 	       Uint8 r, Uint8 g, Uint8 b)
 {
-	LoadSheet(filePath, renderer, w, h, r, g, b);
+	Load(filePath, renderer, w, h, r, g, b);
 }
 
 Sprite::~Sprite()
 {
-	ReleaseSheet();
+	Release_();
 }
 
 int
-Sprite::LoadSheet(string filePath, SDL_Renderer* renderer,
-	       int w, int h,
-	       Uint8 r, Uint8 g, Uint8 b)
+Sprite::Load(string filePath, SDL_Renderer* renderer,
+	     int w, int h,
+	     Uint8 r, Uint8 g, Uint8 b)
 {
 	int sheetWidth, sheetHeight;
 
 	targetRenderer_ = renderer;
 
-	sheet_ = ToolBox::LoadTexture(filePath, renderer);
+	sheet_ = LoadTexture(filePath, renderer, r, g, b);
 
 	rect_.x = 0;
 	rect_.y = 0;
@@ -55,21 +55,6 @@ Sprite::LoadSheet(string filePath, SDL_Renderer* renderer,
 }
 
 void
-Sprite::ReleaseSheet()
-{
-	if (sheet_ != nullptr)
-		SDL_DestroyTexture(sheet_);
-	sheet_ = nullptr;
-}
-
-
-SDL_Texture*
-Sprite::Object()
-{
-	return sheet_;
-}
-
-void
 Sprite::Render()
 {
 	SDL_RenderCopy(targetRenderer_, sheet_, &clip_[currentFrame_], &rect_);
@@ -79,6 +64,12 @@ void
 Sprite::RenderFullWindow()
 {
 	SDL_RenderCopy(targetRenderer_, sheet_, &clip_[currentFrame_], nullptr);
+}
+
+void
+Sprite::SetAlpha(Uint8 value)
+{
+	SDL_SetTextureAlphaMod(sheet_, value);
 }
 
 void
@@ -98,7 +89,16 @@ Sprite::PrevFrame()
 }
 
 void
-Sprite::JumpTo(int where)
+Sprite::JumpTo(Uint16 where)
 {
 	currentFrame_ = where;
+}
+
+void
+Sprite::Release_()
+{
+	SDL_assert(sheet_ != nullptr);
+
+	SDL_DestroyTexture(sheet_);
+	sheet_ = nullptr;
 }

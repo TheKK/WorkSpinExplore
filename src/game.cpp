@@ -17,13 +17,13 @@ Game::Game():
 	workGame_(mainWindow_.GetRenderer()),
 	spinGame_(mainWindow_.GetRenderer()),
 	exploreGame_(mainWindow_.GetRenderer()),
-	aBar_("game/images/achievementBar.png", mainWindow_.GetRenderer()),
-	pause_("game/images/pause.png", mainWindow_.GetRenderer()),
-	pauseSound_("game/sounds/pauseSound.ogg")
+	achiBar_("game/images/achievementBar.png", mainWindow_.GetRenderer()),
+	pauseBG_("game/images/pause.png", mainWindow_.GetRenderer()),
+	pauseSE_("game/sounds/pauseSound.ogg")
 {
-	pause_.SetAlpha(250);
-	pause_.Hide();
-	pause_.SetBlendMode(SDL_BLENDMODE_MOD);
+	pauseBG_.SetAlpha(250);
+	pauseBG_.Hide();
+	pauseBG_.SetBlendMode(SDL_BLENDMODE_MOD);
 
 	SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "game class created");
 }
@@ -77,24 +77,24 @@ Game::EventHandler_(const SDL_Event &event)
 		break;
 	}
 
-	if (!appIsPausing_) {
+	if (!appIsPaused_) {
 		workGame_.EventHandler(event);
 		spinGame_.EventHandler(event);
 		exploreGame_.EventHandler(event);
 
-		aBar_.EventHandler(event);
+		achiBar_.EventHandler(event);
 	}
 }
 
 void
 Game::Update_()
 {
-	if (!appIsPausing_) {
+	if (!appIsPaused_) {
 		workGame_.Update();
 		spinGame_.Update();
 		exploreGame_.Update();
 
-		aBar_.Update();
+		achiBar_.Update();
 	}
 }
 
@@ -107,9 +107,9 @@ Game::Render_()
 		spinGame_.Render();
 		exploreGame_.Render();
 
-		aBar_.Render();
+		achiBar_.Render();
 
-		pause_.RenderFullWindow();
+		pauseBG_.RenderFullWindow();
 	}
 	mainWindow_.Present();
 }
@@ -117,11 +117,13 @@ Game::Render_()
 void
 Game::TogglePause_()
 {
-	appIsPausing_ = !appIsPausing_;
+	appIsPaused_ = !appIsPaused_;
 
-	pause_.SetVisable(appIsPausing_);
-	if (appIsPausing_)
-		pauseSound_.Play();
+	pauseBG_.SetVisable(appIsPaused_);
+	if (appIsPaused_)
+		pauseSE_.Play();
+	else
+		pauseSE_.Stop();
 }
 
 void

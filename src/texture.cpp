@@ -26,7 +26,7 @@ Texture::Load(string filePath, SDL_Renderer* renderer,
 		 Uint8 r, Uint8 g, Uint8 b)
 {
 	targetRenderer_ = renderer;
-	texture_ = ToolBox::LoadTexture(filePath, renderer, r, g, b);
+	texture_ = LoadTexture(filePath, renderer, r, g, b);
 
 	rect_.x = 0;
 	rect_.y = 0;

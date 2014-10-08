@@ -33,7 +33,6 @@ OBJ = main.o			\
       workGame.o		\
       spinGame.o		\
       exploreGame.o		\
-      toolBox.o			\
       window.o			\
       timer.o			\
       texture.o			\

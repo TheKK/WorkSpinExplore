@@ -19,6 +19,11 @@ class Renderable
 		Renderable();
 		virtual ~Renderable();
 		virtual void Render() = 0;
+		virtual void SetAlpha(uint8_t value) = 0;
+
+		SDL_Texture* LoadTexture(string filePath,
+					 SDL_Renderer* renderer,
+					 Uint8 r0, Uint8 g, Uint8 b);
 
 		void Enlarge(int dw, int dh);
 		void SetSize(unsigned int w, unsigned int h);
@@ -40,7 +45,7 @@ class Renderable
 		void SetVisable(bool value);
 		bool GetVisable() const;
 
-		bool MouseHovered(int32_t x, int32_t y);
+		bool MouseHovered(int32_t mouseX, int32_t mouseY);
 	protected:
 		SDL_Rect rect_ = {0, 0, 0, 0};
 

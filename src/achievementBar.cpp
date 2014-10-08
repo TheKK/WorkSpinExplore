@@ -7,7 +7,8 @@
 #include "achievementBar.h"
 
 AchievementBar::AchievementBar(string barPicPath, SDL_Renderer* renderer):
-	barBackground_(barPicPath, renderer)
+	barBackground_(barPicPath, renderer),
+	achiUnlockSE_("./game/sounds/achiUnlockSE.ogg")
 {
 	Load(barPicPath, renderer);
 }
@@ -105,6 +106,7 @@ AchievementBar::Render()
 		e.pic->SetAlpha(e.alpha);
 		e.pic->MoveYTo(e.barPosY);
 
+		e.text->SetAlpha(e.alpha);
 		e.text->MoveYTo(e.barPosY);
 
 		barBackground_.Render();
@@ -121,11 +123,13 @@ AchievementBar::SendJob(enum Achievements which)
 
 	msg.pic = &icons_[which];
 	msg.text = new TextLabel("minecraftia/Minecraftia-Regular.ttf", 11,
-				 texts_[which], textColor, targetRenderer_);
+				 texts_[which], &textColor, targetRenderer_);
 	msg.text->MoveTo(barBackground_.PosX() + 46,
 			  barBackground_.PosY() + 4);
 
 	jobQueue_.push_back(msg);
+
+	achiUnlockSE_.Play();
 }
 
 void

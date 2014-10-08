@@ -22,7 +22,7 @@ SpinGame::SpinGame(SDL_Renderer* renderer):
 	monsterCounter_.MoveTo(viewport.x, viewport.y);
 
 	spinPicture_.Move(80, 219);
-	monsterCounter_.Move(30, 150);
+	monsterCounter_.Move(52, 320);
 
 	renderableList_.push_back(&spinPicture_);
 	renderableList_.push_back(&monsterCounter_);

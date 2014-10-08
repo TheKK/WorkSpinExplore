@@ -40,14 +40,14 @@ class Game
 		SpinGame spinGame_;
 		ExploreGame exploreGame_;
 		
-		AchievementBar aBar_;
+		AchievementBar achiBar_;
 
-		Texture pause_;
+		Texture pauseBG_;
 
-		Sound pauseSound_;
+		Sound pauseSE_;
 
 		bool appIsRunning_ = true;
-		bool appIsPausing_ = false;
+		bool appIsPaused_ = false;
 
 		void EventHandler_(const SDL_Event& event);
 		void Update_();

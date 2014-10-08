@@ -9,39 +9,36 @@
 
 #include <iostream>
 #include <vector>
-#include <cassert>
-#include <cmath>
-#include <cstdlib>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
 #include "sprite.h"
 #include "renderable.h"
 
-#include "toolBox.h"
-
 using namespace std;
 
 class NumberDisplayer : public Renderable
 {
 	public:
-		NumberDisplayer(string picPath, uint8_t displayDigitalNum,
-				uint16_t digitalWidth, uint16_t digitalHeight,
+		NumberDisplayer(string picPath, Uint8 displayDigitalNum,
+				Uint16 digitalWidth, Uint16 digitalHeight,
 				SDL_Renderer* renderer);
 		~NumberDisplayer();
 
 		void Render();
 
-		void AddNum(uint32_t value);
+		void AddNum(Uint32 value);
 		void SetNum(int value);
-		uint64_t GetNum() const;
+		Uint64 GetNum() const;
+
+		void SetAlpha(Uint8 value);
 
 		void CounterSetZero();
 	private:
-		Sprite numbers_;
+		Sprite numSprite_;
 
-		vector<uint8_t> digitals_;
-		uint16_t digitalNum_;
+		vector<Uint8> digitalVect_;
+		Uint16 digitalNum_;
 
 		void Release_();
 };

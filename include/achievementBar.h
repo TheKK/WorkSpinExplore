@@ -8,17 +8,16 @@
 #define ACHIEVEMENT_BAR_H
 
 #include <iostream>
+#include <stdexcept>
 #include <string>
 #include <vector>
-#include <stdexcept>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 
-#include "texture.h"
+#include "sound.h"
 #include "textLabel.h"
-
-#include "toolBox.h"
+#include "texture.h"
 
 using namespace std;
 
@@ -57,6 +56,8 @@ class AchievementBar
 
 		vector<Texture> icons_;
 		vector<string> texts_;
+
+		Sound achiUnlockSE_;
 
 		vector<struct AchievementMsg> jobQueue_;
 
