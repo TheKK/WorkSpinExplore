@@ -36,7 +36,7 @@ class NumberDisplayer : public Renderable
 		void SetNum(int value);
 		uint64_t GetNum() const;
 
-		void SetZero();
+		void CounterSetZero();
 	private:
 		Sprite numbers_;
 

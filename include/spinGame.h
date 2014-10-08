@@ -11,9 +11,10 @@
 #include <random>
 #include <SDL2/SDL.h>
 
-#include "texture.h"
 #include "button.h"
 #include "numberDisplayer.h"
+#include "sound.h"
+#include "texture.h"
 #include "userEvent.h"
 
 using namespace std;
@@ -35,6 +36,9 @@ class SpinGame
 		vector<Renderable*> renderableList_;
 
 		SDL_Renderer* targetRenderer_ = nullptr;
+
+		/* Sound objects */
+		Sound spinSound_;
 
 		bool debugOff_ = true;
 

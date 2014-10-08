@@ -22,16 +22,21 @@ class Sound
 		Sound(string filePath);
 		~Sound();
 
-		//File operations
+		/* File operations */
 		void LoadSoundFile(string filePath);
 
 		void SetSourcePosition(ALint x, ALint y, ALint z);
 		void SetSourcePosition(ALfloat x, ALfloat y, ALfloat z);
 
-		//Sound control
+		/* Sound control */
 		void Play();
 		void Stop();
 		void Pause();
+
+		/* State */
+		bool IsPlaying() const;
+		bool IsPaused() const;
+		bool IsStopped() const;
 	private:
 		ALuint source_;
 		ALuint buffer_;

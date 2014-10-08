@@ -11,7 +11,8 @@ const static SDL_Rect viewport = {213, 0, 213, 360};
 SpinGame::SpinGame(SDL_Renderer* renderer):
 	backGroundPicture_("game/images/spinGameBG.png", renderer),
 	spinPicture_("game/images/spin.png", renderer),
-	monsterCounter_("game/images/number.png", 4, 30, 30, renderer)
+	monsterCounter_("game/images/number.png", 4, 30, 30, renderer),
+	spinSound_("game/sounds/spinSound.ogg")
 {
 	targetRenderer_ = renderer;
 
@@ -120,6 +121,9 @@ SpinGame::SpinSpin_(int16_t degree)
 		UserEvent::PushEvent(USEREVENT_SPIN_QUEST);
 		currentDegree -= 360;
 	}
+
+	if (!spinSound_.IsPlaying())
+		spinSound_.Play();
 }
 
 void

@@ -20,7 +20,7 @@ NumberDisplayer::NumberDisplayer(string picPath, uint8_t displayDigitalNum,
 	/* Set vector size and init value */
 	digitals_.resize(digitalNum_);
 
-	SetZero();
+	CounterSetZero();
 }
 
 NumberDisplayer::~NumberDisplayer()
@@ -73,7 +73,7 @@ NumberDisplayer::GetNum() const
 }
 
 void
-NumberDisplayer::SetZero()
+NumberDisplayer::CounterSetZero()
 {
 	for (auto& e: digitals_)
 		e = 0;

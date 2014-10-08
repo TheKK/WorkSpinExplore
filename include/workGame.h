@@ -10,10 +10,10 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 
-#include "texture.h"
 #include "button.h"
 #include "numberDisplayer.h"
 #include "sound.h"
+#include "texture.h"
 #include "userEvent.h"
 
 using namespace std;
@@ -41,6 +41,7 @@ class WorkGame
 
 		SDL_Renderer* targetRenderer_ = nullptr;
 
+		/* Sound objects */
 		Sound buttonSound_;
 
 		bool debugOff_ = true;

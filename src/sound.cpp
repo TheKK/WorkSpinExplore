@@ -71,6 +71,33 @@ Sound::Pause()
 	alSourcePause(source_);
 }
 
+bool
+Sound::IsPlaying() const
+{
+	ALint state;
+	alGetSourcei(source_, AL_SOURCE_STATE, &state);
+
+	return (state == AL_PLAYING);
+}
+
+bool
+Sound::IsPaused() const
+{
+	ALint state;
+	alGetSourcei(source_, AL_SOURCE_STATE, &state);
+
+	return (state == AL_PAUSED);
+}
+
+bool
+Sound::IsStopped() const
+{
+	ALint state;
+	alGetSourcei(source_, AL_SOURCE_STATE, &state);
+
+	return (state == AL_STOPPED);
+}
+
 void
 Sound::Release_()
 {
