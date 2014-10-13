@@ -113,14 +113,14 @@ WorkGame::EventHandler(const SDL_Event& event)
 	}
 
 	/* User define events */
-	if (event.type == UserEvent::eventID[USEREVENT_SPIN_QUEST]) {
+	if (event.type == UserEvent::ID[USEREVENT_SPIN_QUEST]) {
 		int currentMoney = moneyCounter_.GetNum();
 		currentMoney -= 150;
 
 		if (currentMoney < 0)
-			UserEvent::PushEvent(USEREVENT_SPIN_REFUSE);
+			UserEvent::Push(USEREVENT_SPIN_REFUSE);
 		else {
-			UserEvent::PushEvent(USEREVENT_SPIN_COMFIRM);
+			UserEvent::Push(USEREVENT_SPIN_COMFIRM);
 			moneyCounter_.SetNum(currentMoney);
 		}
 	}

@@ -16,9 +16,14 @@ using namespace std;
 
 enum UserEventList
 {
+	/* Spin serise */
 	USEREVENT_SPIN_QUEST = 0x00,
 	USEREVENT_SPIN_COMFIRM,
 	USEREVENT_SPIN_REFUSE,
+
+	/* Sound serise */
+	USEREVENT_AUDIO_RESUME,
+	USEREVENT_AUDIO_PAUSE,
 
 	USEREVENT_COUNT
 };
@@ -27,9 +32,9 @@ class UserEvent
 {
 	public:
 		static void Init();
-		static void PushEvent(enum UserEventList);
+		static void Push(enum UserEventList);
 
-		static vector<Uint32> eventID;
+		static vector<Uint32> ID;
 };
 
 #endif	/* USER_EVENT_H */

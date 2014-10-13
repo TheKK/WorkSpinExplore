@@ -119,11 +119,15 @@ Game::TogglePause_()
 {
 	appIsPaused_ = !appIsPaused_;
 
-	pauseBG_.SetVisable(appIsPaused_);
-	if (appIsPaused_)
+	if (appIsPaused_) {
+		pauseBG_.Show();
+		UserEvent::Push(USEREVENT_AUDIO_PAUSE);
 		pauseSE_.Play();
-	else
+	} else {
+		pauseBG_.Hide();
+		UserEvent::Push(USEREVENT_AUDIO_RESUME);
 		pauseSE_.Stop();
+	}
 }
 
 void

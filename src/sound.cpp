@@ -71,6 +71,12 @@ Sound::Pause()
 	alSourcePause(source_);
 }
 
+void
+Sound::Resume()
+{
+	alSourceRewind(source_);
+}
+
 bool
 Sound::IsPlaying() const
 {

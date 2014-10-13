@@ -13,14 +13,14 @@
 #include <ctime>
 #include <SDL2/SDL.h>
 
-#include "workGame.h"
-#include "spinGame.h"
-#include "exploreGame.h"
-#include "window.h"
-#include "timer.h"
 #include "achievementBar.h"
-#include "userEvent.h"
+#include "exploreGame.h"
 #include "sound.h"
+#include "spinGame.h"
+#include "timer.h"
+#include "userEvent.h"
+#include "window.h"
+#include "workGame.h"
 
 #define GAME_FPS	60
 

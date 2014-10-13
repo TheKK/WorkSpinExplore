@@ -80,9 +80,9 @@ SpinGame::EventHandler(const SDL_Event& event)
 	}
 
 	/* User define events */
-	if (event.type == UserEvent::eventID[USEREVENT_SPIN_COMFIRM])
+	if (event.type == UserEvent::ID[USEREVENT_SPIN_COMFIRM])
 		monsterCounter_.AddNum(1);
-	if (event.type == UserEvent::eventID[USEREVENT_SPIN_REFUSE])
+	if (event.type == UserEvent::ID[USEREVENT_SPIN_REFUSE])
 		cout << "Not enough money" << endl;
 
 }
@@ -118,7 +118,7 @@ SpinGame::SpinSpin_(int16_t degree)
 
 	/* Spin a round */
 	if (currentDegree >= 360) {
-		UserEvent::PushEvent(USEREVENT_SPIN_QUEST);
+		UserEvent::Push(USEREVENT_SPIN_QUEST);
 		currentDegree -= 360;
 	}
 

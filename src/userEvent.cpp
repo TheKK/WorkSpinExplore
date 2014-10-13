@@ -6,26 +6,33 @@
 
 #include "userEvent.h"
 
-vector<Uint32> UserEvent::eventID;
+vector<Uint32> UserEvent::ID;
 
 void
 UserEvent::Init()
 {
 	Uint32 id;
+
+	ID.resize(0);
+
 	for (int i = 0; i < USEREVENT_COUNT; i++) {
 		id = SDL_RegisterEvents(1);
-		if (id== -1)
+		if (id == -1)
 			throw runtime_error("Can't get user event ID");
 		else
-			eventID.push_back(id);
+			ID.push_back(id);
 	}
 }
 
 void
-UserEvent::PushEvent(enum UserEventList type)
+UserEvent::Push(enum UserEventList type)
 {
 	SDL_Event tmp;
 	SDL_zero(tmp);
-	tmp.type = eventID[type];
+	tmp.type = ID[type];
+
 	SDL_PushEvent(&tmp);
+
+	SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION,
+		     "User event %d pushed", ID[type]);
 }

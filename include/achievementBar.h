@@ -18,6 +18,7 @@
 #include "sound.h"
 #include "textLabel.h"
 #include "texture.h"
+#include "userEvent.h"
 
 using namespace std;
 
@@ -62,6 +63,9 @@ class AchievementBar
 		vector<struct AchievementMsg> jobQueue_;
 
 		SDL_Renderer* targetRenderer_ = nullptr;
+
+		void PauseAllSound_();
+		void ResumeAllSound_();
 
 		void Release_();
 };

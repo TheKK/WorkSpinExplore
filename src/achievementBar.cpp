@@ -59,10 +59,18 @@ AchievementBar::EventHandler(const SDL_Event& event)
 			SendJob(ACHIEVEMENT_TEST);
 			break;
 		case SDLK_r:
+			UserEvent::Push(USEREVENT_AUDIO_PAUSE);
 			break;
 		}
 		break;
 	}
+
+	/* User define events */
+	if (event.type == UserEvent::ID[USEREVENT_AUDIO_PAUSE])
+		PauseAllSound_();
+
+	if (event.type == UserEvent::ID[USEREVENT_AUDIO_RESUME])
+		ResumeAllSound_();
 }
 
 void
@@ -130,6 +138,22 @@ AchievementBar::SendJob(enum Achievements which)
 	jobQueue_.push_back(msg);
 
 	achiUnlockSE_.Play();
+}
+
+void
+AchievementBar::PauseAllSound_()
+{
+	if (achiUnlockSE_.IsPlaying())
+		achiUnlockSE_.Pause();
+	cout << "Pause" << endl;
+}
+
+void
+AchievementBar::ResumeAllSound_()
+{
+	if (achiUnlockSE_.IsPaused())
+		achiUnlockSE_.Play();
+	cout << "Resume" << endl;
 }
 
 void
