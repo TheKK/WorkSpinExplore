@@ -13,9 +13,6 @@ const static SDL_Rect viewport = {0, 0, 213, 360};
 
 WorkGame::WorkGame(SDL_Renderer* renderer):
 	backGroundPicture_("game/images/workGameBG.png", renderer),
-	workButton_("game/images/normal.png",
-		    "game/images/hover.png",
-		    "game/images/push.png", renderer),
 	moneyCounter_("game/images/number.png", 4, 30, 30, renderer),
 	buttonSound_("game/sounds/buttonSound.ogg")
 {
@@ -24,19 +21,14 @@ WorkGame::WorkGame(SDL_Renderer* renderer):
 
 	/* Set initial position to the left upper coner of this viewport*/
 	backGroundPicture_.MoveTo(viewport.x, viewport.y);
-	workButton_.MoveTo(viewport.x, viewport.y);
 	moneyCounter_.MoveTo(viewport.x, viewport.y);
 
 	/* Move these friends to their new place*/
-	workButton_.Move(
-		(viewport.w - workButton_.Width()) / 2,
-		(viewport.h - workButton_.Height()) / 2);
 	moneyCounter_.Move(
 		(viewport.w - moneyCounter_.Width()) / 2 - 30,
 		viewport.h - moneyCounter_.Height() - 10);
 
 	//TODO: make this looks great
-	renderableList_.push_back(&workButton_);
 	renderableList_.push_back(&moneyCounter_);
 
 	//LoadScript_();
@@ -66,6 +58,8 @@ WorkGame::EventHandler(const SDL_Event& event)
 		}
 		break;
 	case SDL_MOUSEMOTION:
+		Scratch_(event);
+
 		if (debugOff_)
 			break;
 
@@ -78,7 +72,6 @@ WorkGame::EventHandler(const SDL_Event& event)
 		break;
 	case SDL_MOUSEBUTTONDOWN:
 		if (event.button.button == SDL_BUTTON_LEFT) {
-			TapTheButton_();
 			//for (auto e : uiSet_) {
 				//if (e.ptr->MouseHovered(event.button.x,
 						    //event.button.y)) {
@@ -105,10 +98,6 @@ WorkGame::EventHandler(const SDL_Event& event)
 				}
 			}
 		}
-		break;
-	case SDL_MOUSEBUTTONUP:
-		if (event.button.button == SDL_BUTTON_LEFT)
-			ReleaseTheButton_();
 		break;
 	}
 
@@ -141,17 +130,29 @@ WorkGame::Render()
 }
 
 void
-WorkGame::TapTheButton_()
+WorkGame::Scratch_(const SDL_Event& event)
 {
-	workButton_.ChangeState(BUTTON_PUSHED);
-	buttonSound_.Play();
-	moneyCounter_.AddNum(1);
+	const SDL_Point p = {event.motion.x, event.motion.y};
+	const Uint8 speed = 7;
+
+	if ((event.motion.state == SDL_BUTTON_LMASK) &&
+	    (SDL_PointInRect(&p, &viewport)) &&
+	    (event.motion.xrel > speed || event.motion.yrel > speed)) {
+		if (!buttonSound_.IsPlaying()) {
+			buttonSound_.Play();
+			moneyCounter_.AddNum(1);
+		}
+	}
 }
 
-void
-WorkGame::ReleaseTheButton_()
+SDL_bool
+WorkGame::SDL_PointInRect(const SDL_Point* p, const SDL_Rect* r)
 {
-	workButton_.ChangeState(BUTTON_NORMAL);
+	if ((p->x > r->x) && (p->y > r->y) &&
+	    (p->x < r->x + r->w) && (p->y < r->y + r->h))
+		return SDL_TRUE;
+	else
+		return SDL_FALSE;
 }
 
 //void

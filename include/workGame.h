@@ -35,7 +35,6 @@ class WorkGame
 	private:
 		/* Graphical objects */
 		Texture backGroundPicture_;
-		Button workButton_;
 		NumberDisplayer moneyCounter_;
 		vector<Renderable*> renderableList_;
 
@@ -47,13 +46,18 @@ class WorkGame
 		bool debugOff_ = true;
 		//static const Window* window;
 
-		void TapTheButton_();
-		void ReleaseTheButton_();
+		void Scratch_(const SDL_Event& event);
 
 		//lua_State* L;
 		//static vector<struct UI> uiSet_;
 		//void LoadScript_();
 		//static int CreateButton_(lua_State* L);
+
+		/*
+		 * This function is not avaliable in sdl2.0.3 so I made
+		 * my own implement.
+		 */
+		SDL_bool SDL_PointInRect(const SDL_Point* p, const SDL_Rect* r);
 
 		void Release_();
 };
