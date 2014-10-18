@@ -52,12 +52,12 @@ MainGameState::EventHandler(const SDL_Event& event)
 {
 	switch (event.type) {
 	case SDL_QUIT:
-		WantQuit();
+		SetNext(GAME_STATE_QUIT);
 		break;
 	case SDL_KEYDOWN:
 		switch (event.key.keysym.sym) {
 		case SDLK_q:
-			WantQuit();
+			SetNext(GAME_STATE_QUIT);
 			break;
 		case SDLK_p:
 			TogglePause_();

@@ -10,8 +10,8 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 
-#include "game.h"
 #include "gameState.h"
+#include "mainGameState.h"
 #include "soundEngine.h"
 #include "timer.h"
 #include "userEvent.h"
@@ -101,6 +101,28 @@ CleanUp()
 	SoundEngine::Quit();
 }
 
+GameState*
+ChangeState(GameState* state, enum GameStateList which)
+{
+	delete state;
+	state = nullptr;
+
+	switch (which) {
+	case GAME_STATE_MAIN:
+		state = new MainGameState();
+		break;
+	case GAME_STATE_QUIT:
+		state = nullptr;
+		break;
+	default:
+		SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
+				  "GameState trasform error");
+		break;
+	}
+
+	return state;
+}
+
 int
 main(int argc, char* argv[])
 {
@@ -113,16 +135,21 @@ main(int argc, char* argv[])
 		InitSystem();
 
 		/* The begin of life... */
-		gameState = new Game();
+		gameState = new MainGameState();
 
 		/* The cycle of life... */
-		while (gameState->IsRunning()) {
+		while (gameState) {
 			timer.Start();
 
 			while (SDL_PollEvent(&event))
 				gameState->EventHandler(event);
 			gameState->Update();
 			gameState->Render();
+
+			if (gameState->HasNext())
+				gameState =
+					ChangeState(gameState,
+						    gameState->Next());
 
 			if (timer.GetTicks() < (1000 / GAME_FPS))
 				SDL_Delay((1000 / GAME_FPS) -
