@@ -14,7 +14,6 @@ SpinGame::SpinGame(SDL_Renderer* renderer):
 	monsterCounter_("game/images/number.png", 4, 30, 30, renderer),
 	spinSound_("game/sounds/spinSound.ogg")
 {
-	targetRenderer_ = renderer;
 
 	/* Initialize according to viewport coordinate */
 	backGroundPicture_.MoveTo(viewport.x, viewport.y);
@@ -26,6 +25,8 @@ SpinGame::SpinGame(SDL_Renderer* renderer):
 
 	renderableList_.push_back(&spinPicture_);
 	renderableList_.push_back(&monsterCounter_);
+
+	targetRenderer_ = renderer;
 }
 
 SpinGame::~SpinGame()

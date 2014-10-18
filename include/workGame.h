@@ -10,6 +10,7 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 
+#include "widget.h"
 #include "button.h"
 #include "numberDisplayer.h"
 #include "sound.h"
@@ -18,12 +19,7 @@
 
 using namespace std;
 
-//struct UI {
-	//const char* name = nullptr;
-	//Renderable* ptr = nullptr;
-//};
-
-class WorkGame
+class WorkGame : public Widget
 {
 	public:
 		WorkGame(SDL_Renderer* renderer);
@@ -32,23 +28,16 @@ class WorkGame
 		void EventHandler(const SDL_Event& event);
 		void Update();
 		void Render();
-
-		void Pause();
-		void Unpause();
 	private:
-		/* Graphical objects */
+		/* Graphic */
+		vector<Renderable*> renderableList_;
 		Texture backGroundPicture_;
 		NumberDisplayer moneyCounter_;
-		vector<Renderable*> renderableList_;
 
-		SDL_Renderer* targetRenderer_ = nullptr;
-
-		/* Sound objects */
+		/* Sound */
 		Sound buttonSound_;
 
-		bool debugOff_ = true;
-		bool isPaused_ = false;
-
+		/* Private functions */
 		void Scratch_(const SDL_Event& event);
 
 		/*

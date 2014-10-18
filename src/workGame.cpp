@@ -26,6 +26,8 @@ WorkGame::WorkGame(SDL_Renderer* renderer):
 
 	//TODO: make this looks great
 	renderableList_.push_back(&moneyCounter_);
+
+	soundList_.push_back(&buttonSound_);
 }
 
 WorkGame::~WorkGame()
@@ -36,6 +38,9 @@ WorkGame::~WorkGame()
 void
 WorkGame::EventHandler(const SDL_Event& event)
 {
+	if (isPaused_)
+		return;
+
 	switch (event.type) {
 	case SDL_KEYDOWN:
 		switch (event.key.keysym.sym) {
@@ -101,6 +106,8 @@ WorkGame::EventHandler(const SDL_Event& event)
 void
 WorkGame::Update()
 {
+	if (isPaused_)
+		return;
 }
 
 void

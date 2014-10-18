@@ -87,13 +87,18 @@ void
 Window::Resize(int width, int height)
 {
 	SDL_SetWindowSize(window_, width, height);
-	SDL_RenderSetLogicalSize(renderer_, width, height);
 }
 
 void
 Window::SetTitle(const string& title)
 {
 	SDL_SetWindowTitle(window_, title.c_str());
+}
+
+void
+Window::MoveTo(int x, int y)
+{
+	SDL_SetWindowPosition(window_, x, y);
 }
 
 void

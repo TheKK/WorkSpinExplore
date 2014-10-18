@@ -30,6 +30,7 @@ LIB += $(shell pkg-config --libs alure)
 OBJ_PATH = $(PWD)/obj
 OBJ = main.o			\
       game.o			\
+      widget.o			\
       workGame.o		\
       spinGame.o		\
       exploreGame.o		\

@@ -21,7 +21,7 @@ AchievementBar::~AchievementBar()
 void
 AchievementBar::Load(string barPicPath, SDL_Renderer* renderer)
 {
-	//TODO: Improve this
+	//TODO: Improve this ugly thing...
 	int width;
 	vector<string> iconPath;
 
@@ -45,6 +45,9 @@ AchievementBar::Load(string barPicPath, SDL_Renderer* renderer)
 	texts_.emplace_back(string("This is a test"));
 	texts_.emplace_back(string("Click mouse 20 times!"));
 	SDL_assert_paranoid(texts_.size() == ACHIEVEMENT_COUNT);
+
+	/* TODO: uglyyyyyyyyyyyyyy */
+	soundList_.push_back(&achiUnlockSE_);
 
 	targetRenderer_ = renderer;
 }
@@ -120,20 +123,6 @@ AchievementBar::Render()
 }
 
 void
-AchievementBar::Pause()
-{
-	isPaused_ = true;
-	PauseAllSound_();
-}
-
-void
-AchievementBar::Unpause()
-{
-	isPaused_ = false;
-	ResumeAllSound_();
-}
-
-void
 AchievementBar::SendJob(enum Achievements which)
 {
 	struct AchievementMsg msg;
@@ -148,22 +137,6 @@ AchievementBar::SendJob(enum Achievements which)
 	jobQueue_.push_back(msg);
 
 	achiUnlockSE_.Play();
-}
-
-void
-AchievementBar::PauseAllSound_()
-{
-	if (achiUnlockSE_.IsPlaying())
-		achiUnlockSE_.Pause();
-	cout << "Pause" << endl;
-}
-
-void
-AchievementBar::ResumeAllSound_()
-{
-	if (achiUnlockSE_.IsPaused())
-		achiUnlockSE_.Play();
-	cout << "Resume" << endl;
 }
 
 void

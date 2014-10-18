@@ -16,10 +16,11 @@
 #include "sound.h"
 #include "texture.h"
 #include "userEvent.h"
+#include "widget.h"
 
 using namespace std;
 
-class SpinGame
+class SpinGame : public Widget
 {
 	public:
 		SpinGame(SDL_Renderer* renderer);
@@ -29,19 +30,16 @@ class SpinGame
 		void Update();
 		void Render();
 	private:
-		/* Graphical objects */
+		/* Graphic */
+		vector<Renderable*> renderableList_;
 		Texture backGroundPicture_;
 		Texture spinPicture_;
 		NumberDisplayer monsterCounter_;
-		vector<Renderable*> renderableList_;
 
-		SDL_Renderer* targetRenderer_ = nullptr;
-
-		/* Sound objects */
+		/* Sound */
 		Sound spinSound_;
 
-		bool debugOff_ = true;
-
+		/* Private functions */
 		void SpinSpin_(int16_t degree);
 
 		void Release_();

@@ -30,6 +30,7 @@ class Window
 		/* Function to control this object */
 		void Resize(int width, int height);
 		void SetTitle(const string& title);
+		void MoveTo(int x, int y);
 		void Show();
 		void Hide();
 

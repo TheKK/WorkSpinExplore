@@ -23,6 +23,13 @@ Game::Game():
 	pauseBG_("game/images/pause.png", mainWindow_.GetRenderer()),
 	pauseSE_("game/sounds/pauseSound.ogg")
 {
+	/**
+	 * Make window two times large than logical size
+	 * and move it to center of screen
+	 */
+	mainWindow_.Resize(mainWindow_.Width() * 2, mainWindow_.Height() * 2);
+	mainWindow_.MoveTo(SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+
 	pauseBG_.SetAlpha(250);
 	pauseBG_.Hide();
 	pauseBG_.SetBlendMode(SDL_BLENDMODE_MOD);
@@ -121,11 +128,13 @@ Game::TogglePause_()
 
 	if (appIsPaused_) {
 		achiBar_.Pause();
+		workGame_.Pause();
 
 		pauseBG_.Show();
 		pauseSE_.Play();
 	} else {
-		achiBar_.Unpause();
+		achiBar_.Resume();
+		workGame_.Resume();
 
 		pauseBG_.Hide();
 		pauseSE_.Stop();

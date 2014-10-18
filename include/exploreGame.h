@@ -10,12 +10,13 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 
-#include "texture.h"
 #include "button.h"
+#include "texture.h"
+#include "widget.h"
 
 using namespace std;
 
-class ExploreGame
+class ExploreGame : public Widget
 {
 	public:
 		ExploreGame(SDL_Renderer* renderer);
@@ -25,10 +26,12 @@ class ExploreGame
 		void Update();
 		void Render();
 	private:
+		/* Graphic */
 		Texture backGroundPicture_;
 
 		SDL_Renderer* targetRenderer_ = nullptr;
 
+		/* Private functions */
 		void Release_();
 };
 

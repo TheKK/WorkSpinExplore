@@ -19,13 +19,17 @@
 #include "textLabel.h"
 #include "texture.h"
 #include "userEvent.h"
+#include "widget.h"
+
+#define ACHIBAR_BACKGROUND_PIC	"./game/images/achievementBar.png"
 
 using namespace std;
 
 enum Achievements
 {
-	ACHIEVEMENT_TEST = 0,
+	ACHIEVEMENT_TEST = 0x00,
 	ACHIEVEMENT_MOUSE_CLICK_20,
+
 	ACHIEVEMENT_COUNT
 };
 
@@ -39,7 +43,8 @@ struct AchievementMsg
 	bool shouldDie = false;
 };
 
-class AchievementBar
+/* FIXME: it's not very appropriate to inherit Widget class */
+class AchievementBar : public Widget
 {
 	public:
 		AchievementBar(string barPicPath, SDL_Renderer* renderer);
@@ -51,27 +56,23 @@ class AchievementBar
 		void Update();
 		void Render();
 
-		void Pause();
-		void Unpause();
-
 		void SendJob(enum Achievements which);
 	private:
-		bool isPaused_ = false;
-
+		/* Graphic */
 		Texture barBackground_;
 
 		vector<Texture> icons_;
 		vector<string> texts_;
 
-		Sound achiUnlockSE_;
-
-		vector<struct AchievementMsg> jobQueue_;
-
 		SDL_Renderer* targetRenderer_ = nullptr;
 
-		void PauseAllSound_();
-		void ResumeAllSound_();
+		/* Sound */
+		Sound achiUnlockSE_;
 
+		/* Others */
+		vector<struct AchievementMsg> jobQueue_;
+
+		/* Private functions */
 		void Release_();
 };
 
