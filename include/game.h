@@ -42,6 +42,7 @@ class Game
 		
 		AchievementBar achiBar_;
 
+		Texture screenBorder_;
 		Texture pauseBG_;
 
 		Sound pauseSE_;

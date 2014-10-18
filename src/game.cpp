@@ -18,6 +18,8 @@ Game::Game():
 	spinGame_(mainWindow_.GetRenderer()),
 	exploreGame_(mainWindow_.GetRenderer()),
 	achiBar_("game/images/achievementBar.png", mainWindow_.GetRenderer()),
+	screenBorder_("game/images/screenBorder.png",
+		      mainWindow_.GetRenderer()),
 	pauseBG_("game/images/pause.png", mainWindow_.GetRenderer()),
 	pauseSE_("game/sounds/pauseSound.ogg")
 {
@@ -77,25 +79,21 @@ Game::EventHandler_(const SDL_Event &event)
 		break;
 	}
 
-	if (!appIsPaused_) {
-		workGame_.EventHandler(event);
-		spinGame_.EventHandler(event);
-		exploreGame_.EventHandler(event);
+	workGame_.EventHandler(event);
+	spinGame_.EventHandler(event);
+	exploreGame_.EventHandler(event);
 
-		achiBar_.EventHandler(event);
-	}
+	achiBar_.EventHandler(event);
 }
 
 void
 Game::Update_()
 {
-	if (!appIsPaused_) {
-		workGame_.Update();
-		spinGame_.Update();
-		exploreGame_.Update();
+	workGame_.Update();
+	spinGame_.Update();
+	exploreGame_.Update();
 
-		achiBar_.Update();
-	}
+	achiBar_.Update();
 }
 
 void
@@ -106,6 +104,8 @@ Game::Render_()
 		workGame_.Render();
 		spinGame_.Render();
 		exploreGame_.Render();
+
+		screenBorder_.Render();
 
 		achiBar_.Render();
 
@@ -120,12 +120,14 @@ Game::TogglePause_()
 	appIsPaused_ = !appIsPaused_;
 
 	if (appIsPaused_) {
+		achiBar_.Pause();
+
 		pauseBG_.Show();
-		UserEvent::Push(USEREVENT_AUDIO_PAUSE);
 		pauseSE_.Play();
 	} else {
+		achiBar_.Unpause();
+
 		pauseBG_.Hide();
-		UserEvent::Push(USEREVENT_AUDIO_RESUME);
 		pauseSE_.Stop();
 	}
 }

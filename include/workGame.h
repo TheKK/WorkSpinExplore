@@ -32,6 +32,9 @@ class WorkGame
 		void EventHandler(const SDL_Event& event);
 		void Update();
 		void Render();
+
+		void Pause();
+		void Unpause();
 	private:
 		/* Graphical objects */
 		Texture backGroundPicture_;
@@ -44,14 +47,9 @@ class WorkGame
 		Sound buttonSound_;
 
 		bool debugOff_ = true;
-		//static const Window* window;
+		bool isPaused_ = false;
 
 		void Scratch_(const SDL_Event& event);
-
-		//lua_State* L;
-		//static vector<struct UI> uiSet_;
-		//void LoadScript_();
-		//static int CreateButton_(lua_State* L);
 
 		/*
 		 * This function is not avaliable in sdl2.0.3 so I made

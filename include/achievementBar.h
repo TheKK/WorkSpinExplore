@@ -51,8 +51,13 @@ class AchievementBar
 		void Update();
 		void Render();
 
+		void Pause();
+		void Unpause();
+
 		void SendJob(enum Achievements which);
 	private:
+		bool isPaused_ = false;
+
 		Texture barBackground_;
 
 		vector<Texture> icons_;

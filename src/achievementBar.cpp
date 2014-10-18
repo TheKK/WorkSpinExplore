@@ -52,30 +52,26 @@ AchievementBar::Load(string barPicPath, SDL_Renderer* renderer)
 void
 AchievementBar::EventHandler(const SDL_Event& event)
 {
+	if (isPaused_)
+		return;
+
 	switch (event.type) {
 	case SDL_KEYDOWN:
 		switch (event.key.keysym.sym) {
 		case SDLK_e:
 			SendJob(ACHIEVEMENT_TEST);
 			break;
-		case SDLK_r:
-			UserEvent::Push(USEREVENT_AUDIO_PAUSE);
-			break;
 		}
 		break;
 	}
-
-	/* User define events */
-	if (event.type == UserEvent::ID[USEREVENT_AUDIO_PAUSE])
-		PauseAllSound_();
-
-	if (event.type == UserEvent::ID[USEREVENT_AUDIO_RESUME])
-		ResumeAllSound_();
 }
 
 void
 AchievementBar::Update()
 {
+	if (isPaused_)
+		return;
+
 	/* Update jobs' position according to their "frame" */
 	for (auto& e : jobQueue_) {
 		e.frame++;
@@ -121,6 +117,20 @@ AchievementBar::Render()
 		e.pic->Render();
 		e.text->Render();
 	}
+}
+
+void
+AchievementBar::Pause()
+{
+	isPaused_ = true;
+	PauseAllSound_();
+}
+
+void
+AchievementBar::Unpause()
+{
+	isPaused_ = false;
+	ResumeAllSound_();
 }
 
 void

@@ -8,15 +8,11 @@
 
 const static SDL_Rect viewport = {0, 0, 213, 360};
 
-//const Window* WorkGame::window;
-//vector<struct UI> WorkGame::uiSet_;
-
 WorkGame::WorkGame(SDL_Renderer* renderer):
 	backGroundPicture_("game/images/workGameBG.png", renderer),
 	moneyCounter_("game/images/number.png", 4, 30, 30, renderer),
 	buttonSound_("game/sounds/buttonSound.ogg")
 {
-	//this->window = &window;
 	targetRenderer_ = renderer;
 
 	/* Set initial position to the left upper coner of this viewport*/
@@ -30,8 +26,6 @@ WorkGame::WorkGame(SDL_Renderer* renderer):
 
 	//TODO: make this looks great
 	renderableList_.push_back(&moneyCounter_);
-
-	//LoadScript_();
 }
 
 WorkGame::~WorkGame()
@@ -72,17 +66,6 @@ WorkGame::EventHandler(const SDL_Event& event)
 		break;
 	case SDL_MOUSEBUTTONDOWN:
 		if (event.button.button == SDL_BUTTON_LEFT) {
-			//for (auto e : uiSet_) {
-				//if (e.ptr->MouseHovered(event.button.x,
-						    //event.button.y)) {
-					//lua_getglobal(L,e.name);
-					//lua_getfield(L, -1, "clickFunc");
-					//lua_call(L, 0, 0);
-					//lua_pop(L, 1);
-					//cout << "Size: " <<
-					//lua_gettop(L) << endl;
-				//}
-			//}
 		}
 
 		/* Check current mode */
@@ -132,8 +115,10 @@ WorkGame::Render()
 void
 WorkGame::Scratch_(const SDL_Event& event)
 {
-	const SDL_Point p = {event.motion.x, event.motion.y};
-	const Uint8 speed = 7;
+	SDL_assert(event.type == SDL_MOUSEMOTION);
+
+	SDL_Point p = {event.motion.x, event.motion.y};
+	Uint8 speed = 7;
 
 	if ((event.motion.state == SDL_BUTTON_LMASK) &&
 	    (SDL_PointInRect(&p, &viewport)) &&
@@ -155,57 +140,7 @@ WorkGame::SDL_PointInRect(const SDL_Point* p, const SDL_Rect* r)
 		return SDL_FALSE;
 }
 
-//void
-//WorkGame::LoadScript_()
-//{
-	//L = luaL_newstate();
-	//luaL_openlibs(L);
-
-	//lua_register(L, "CreateButton", CreateButton_);
-	//if (luaL_dofile(L, "./game/scripts/workGame.lua")) {
-		//cout << "Lua error: " <<  lua_tostring(L, -1) << endl;
-		//lua_close(L);
-		//return;
-	//}
-//}
-
-//int
-//WorkGame::CreateButton_(lua_State* L)
-//{
-	//int posX, posY;
-	//const char* filePath;
-	//const char* name;
-
-	//lua_getfield(L, -1, "posX");
-	//lua_getfield(L, -2, "posY");
-	//posX = lua_tointeger(L, -2);
-	//posY = lua_tointeger(L, -1);
-	//lua_pop(L, 2);
-
-	//lua_getfield(L, -1, "pic");
-	//filePath = lua_tostring(L, -1);
-	//lua_pop(L, 1);
-
-	//lua_getfield(L, -1, "name");
-	//name = lua_tostring(L, -1);
-	//lua_pop(L, 2);
-
-	//Renderable* tmp = new Texture(string(filePath), *window);
-	//tmp->MoveTo(posX, posY);
-
-	//struct UI tp;
-	//tp.name = name;
-	//tp.ptr = tmp;
-	//uiSet_.push_back(tp);
-
-	//return 0;
-//}
-
 void
 WorkGame::Release_()
 {
-	//for(auto e : uiSet_)
-		//delete e.ptr;
-
-	//lua_close(L);
 }
