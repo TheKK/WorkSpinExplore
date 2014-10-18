@@ -13,14 +13,12 @@ WorkGame::WorkGame(SDL_Renderer* renderer):
 	moneyCounter_("game/images/number.png", 4, 30, 30, renderer),
 	buttonSound_("game/sounds/buttonSound.ogg")
 {
-	targetRenderer_ = renderer;
-
 	/* Set initial position to the left upper coner of this viewport*/
 	backGroundPicture_.MoveTo(viewport.x, viewport.y);
 	moneyCounter_.MoveTo(viewport.x, viewport.y);
 
 	/* Move these friends to their new place*/
-	moneyCounter_.Move(
+	moneyCounter_.MoveBy(
 		(viewport.w - moneyCounter_.Width()) / 2 - 30,
 		viewport.h - moneyCounter_.Height() - 10);
 
@@ -28,6 +26,11 @@ WorkGame::WorkGame(SDL_Renderer* renderer):
 	renderableList_.push_back(&moneyCounter_);
 
 	soundList_.push_back(&buttonSound_);
+
+	targetRenderer_ = renderer;
+
+	/* DEBUG */
+	moneyCounter_.SetNum(1000);
 }
 
 WorkGame::~WorkGame()
@@ -65,7 +68,7 @@ WorkGame::EventHandler(const SDL_Event& event)
 		for (Renderable* e : renderableList_) {
 			if (e->MouseHovered(event.motion.x, event.motion.y) &&
 			    event.motion.state == SDL_BUTTON_LMASK) {
-				e->Move(event.motion.xrel, event.motion.yrel);
+				e->MoveBy(event.motion.xrel, event.motion.yrel);
 			}
 		}
 		break;

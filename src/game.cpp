@@ -18,6 +18,7 @@ Game::Game():
 	spinGame_(mainWindow_.GetRenderer()),
 	exploreGame_(mainWindow_.GetRenderer()),
 	achiBar_("game/images/achievementBar.png", mainWindow_.GetRenderer()),
+	hand_("game/images/hand.png", mainWindow_.GetRenderer()),
 	screenBorder_("game/images/screenBorder.png",
 		      mainWindow_.GetRenderer()),
 	pauseBG_("game/images/pause.png", mainWindow_.GetRenderer()),
@@ -82,7 +83,8 @@ Game::EventHandler_(const SDL_Event &event)
 			break;
 		}
 		break;
-	case SDL_MOUSEBUTTONDOWN:
+	case SDL_MOUSEMOTION:
+		hand_.MoveTo(event.motion.x - 80, event.motion.y);
 		break;
 	}
 
@@ -113,6 +115,8 @@ Game::Render_()
 		exploreGame_.Render();
 
 		screenBorder_.Render();
+
+		hand_.Render();
 
 		achiBar_.Render();
 

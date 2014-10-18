@@ -34,22 +34,29 @@ class Game
 
 		void Execute();
 	private:
-		Window mainWindow_;
-
-		WorkGame workGame_;
-		SpinGame spinGame_;
-		ExploreGame exploreGame_;
-		
-		AchievementBar achiBar_;
-
-		Texture screenBorder_;
-		Texture pauseBG_;
-
-		Sound pauseSE_;
-
+		/* State */
 		bool appIsRunning_ = true;
 		bool appIsPaused_ = false;
 
+		/* Window */
+		Window mainWindow_;
+
+		/* Widget */
+		WorkGame workGame_;
+		SpinGame spinGame_;
+		ExploreGame exploreGame_;
+
+		AchievementBar achiBar_;
+
+		/* Graphic */
+		Texture hand_;
+		Texture screenBorder_;
+		Texture pauseBG_;
+
+		/* Sound */
+		Sound pauseSE_;
+
+		/* Private functions */
 		void EventHandler_(const SDL_Event& event);
 		void Update_();
 		void Render_();

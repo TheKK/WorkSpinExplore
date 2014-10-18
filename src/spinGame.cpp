@@ -20,13 +20,16 @@ SpinGame::SpinGame(SDL_Renderer* renderer):
 	spinPicture_.MoveTo(viewport.x, viewport.y);
 	monsterCounter_.MoveTo(viewport.x, viewport.y);
 
-	spinPicture_.Move(80, 219);
-	monsterCounter_.Move(52, 320);
+	spinPicture_.MoveBy(80, 219);
+	monsterCounter_.MoveBy(52, 320);
 
 	renderableList_.push_back(&spinPicture_);
 	renderableList_.push_back(&monsterCounter_);
 
 	targetRenderer_ = renderer;
+
+	/* DEBUG */
+	monsterCounter_.SetNum(1000);
 }
 
 SpinGame::~SpinGame()
@@ -56,7 +59,7 @@ SpinGame::EventHandler(const SDL_Event& event)
 		for (Renderable* e : renderableList_) {
 			if (e->MouseHovered(event.motion.x, event.motion.y) &&
 			    event.motion.state == SDL_BUTTON_LMASK) {
-				e->Move(event.motion.xrel, event.motion.yrel);
+				e->MoveBy(event.motion.xrel, event.motion.yrel);
 			}
 		}
 		break;
@@ -84,8 +87,19 @@ SpinGame::EventHandler(const SDL_Event& event)
 	if (event.type == UserEvent::ID[USEREVENT_SPIN_COMFIRM])
 		monsterCounter_.AddNum(1);
 	if (event.type == UserEvent::ID[USEREVENT_SPIN_REFUSE])
-		cout << "Not enough money" << endl;
+		SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Not enough money");
 
+	if (event.type == UserEvent::ID[USEREVENT_EXPLO_QUEST]) {
+		int currentMoney = monsterCounter_.GetNum();
+		currentMoney -= 4;
+
+		if (currentMoney < 0)
+			UserEvent::Push(USEREVENT_EXPLO_REFUSE);
+		else {
+			UserEvent::Push(USEREVENT_EXPLO_COMFIRM);
+			monsterCounter_.SetNum(currentMoney);
+		}
+	}
 }
 
 void

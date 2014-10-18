@@ -11,7 +11,9 @@
 #include <SDL2/SDL.h>
 
 #include "button.h"
+#include "numberDisplayer.h"
 #include "texture.h"
+#include "userEvent.h"
 #include "widget.h"
 
 using namespace std;
@@ -27,9 +29,9 @@ class ExploreGame : public Widget
 		void Render();
 	private:
 		/* Graphic */
+		vector<Renderable*> renderableList_;
 		Texture backGroundPicture_;
-
-		SDL_Renderer* targetRenderer_ = nullptr;
+		NumberDisplayer treasureCounter_;
 
 		/* Private functions */
 		void Release_();
