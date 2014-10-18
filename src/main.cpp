@@ -11,8 +11,10 @@
 #include <SDL2/SDL_ttf.h>
 
 #include "game.h"
-#include "userEvent.h"
+#include "gameState.h"
 #include "soundEngine.h"
+#include "timer.h"
+#include "userEvent.h"
 
 #ifndef SDL_ASSERT_LEVEL
 	#define SDL_ASSERT_LEVEL	3
@@ -20,6 +22,8 @@
 	#undef SDL_ASSERT_LEVEL
 	#define SDL_ASSERT_LEVEL	3
 #endif
+
+#define GAME_FPS	60
 
 using namespace std;
 
@@ -100,11 +104,30 @@ CleanUp()
 int
 main(int argc, char* argv[])
 {
+	GameState* gameState = nullptr;
+	Timer timer;
+	SDL_Event event;
+
 	try {
+		/* The creation of world... */
 		InitSystem();
 
-		Game game;
-		game.Execute();
+		/* The begin of life... */
+		gameState = new Game();
+
+		/* The cycle of life... */
+		while (gameState->IsRunning()) {
+			timer.Start();
+
+			while (SDL_PollEvent(&event))
+				gameState->EventHandler(event);
+			gameState->Update();
+			gameState->Render();
+
+			if (timer.GetTicks() < (1000 / GAME_FPS))
+				SDL_Delay((1000 / GAME_FPS) -
+					  timer.GetTicks());
+		}
 	} catch (runtime_error& e) {
 		cerr << e.what() << endl;
 	}

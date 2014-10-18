@@ -1,11 +1,11 @@
 /*
  * Author: KK <thumbd03803@gmail.com>
  *
- * File: game.h
+ * File: mainGameState.h
  */
 
-#ifndef GAME_H
-#define GAME_H
+#ifndef MAIN_GAME_STATE_H
+#define MAIN_GAME_STATE_H
 
 #include <iostream>
 #include <string>
@@ -15,37 +15,38 @@
 
 #include "achievementBar.h"
 #include "exploreGame.h"
+#include "gameState.h"
 #include "sound.h"
 #include "spinGame.h"
 #include "timer.h"
 #include "userEvent.h"
+#include "widget.h"
 #include "window.h"
 #include "workGame.h"
 
-#define GAME_FPS	60
-
 using namespace std;
 
-class Game
+class MainGameState : public GameState
 {
 	public:
-		Game();
-		~Game();
+		MainGameState();
+		~MainGameState();
 
-		void Execute();
+		void EventHandler(const SDL_Event& event);
+		void Update();
+		void Render();
 	private:
 		/* State */
-		bool appIsRunning_ = true;
 		bool appIsPaused_ = false;
 
 		/* Window */
 		Window mainWindow_;
 
 		/* Widget */
+		vector<Widget*> widgetList_;
 		WorkGame workGame_;
 		SpinGame spinGame_;
 		ExploreGame exploreGame_;
-
 		AchievementBar achiBar_;
 
 		/* Graphic */
@@ -57,14 +58,10 @@ class Game
 		Sound pauseSE_;
 
 		/* Private functions */
-		void EventHandler_(const SDL_Event& event);
-		void Update_();
-		void Render_();
-
 		void TogglePause_();
 		void ScreenShot_();
 
 		void Release_();
 };
 
-#endif	/* GAME_H */
+#endif	/* MAIN_GAME_STATE_H */

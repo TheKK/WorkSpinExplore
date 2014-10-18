@@ -1,18 +1,17 @@
 /*
  * Author: KK <thumbd03803@gmail.com>
  *
- * File: game.cpp
+ * File: mainGameState.cpp
  */
 
-#include "game.h"
+#include "mainGameState.h"
 
-#define GAME_FPS	60
 #define GAME_WIDTH	640
 #define GAME_HEIGHT	360
 
 using namespace std;
 
-Game::Game():
+MainGameState::MainGameState():
 	mainWindow_("Work!Spin!Explore!!", GAME_WIDTH, GAME_HEIGHT),
 	workGame_(mainWindow_.GetRenderer()),
 	spinGame_(mainWindow_.GetRenderer()),
@@ -35,45 +34,30 @@ Game::Game():
 	pauseBG_.Hide();
 	pauseBG_.SetBlendMode(SDL_BLENDMODE_MOD);
 
+	widgetList_.push_back(&workGame_);
+	widgetList_.push_back(&spinGame_);
+	widgetList_.push_back(&exploreGame_);
+	widgetList_.push_back(&achiBar_);
+
 	SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "game class created");
 }
 
-Game::~Game()
+MainGameState::~MainGameState()
 {
 	Release_();
 }
 
 void
-Game::Execute()
-{
-	/* Main loop */
-	SDL_Event event;
-	Timer timer;
-	while (appIsRunning_) {
-		timer.Start();
-
-		while (SDL_PollEvent(&event))
-			EventHandler_(event);
-
-		Update_();
-		Render_();
-
-		if (timer.GetTicks() < (1000 / GAME_FPS))
-			SDL_Delay((1000 / GAME_FPS) - timer.GetTicks());
-	}
-}
-
-void
-Game::EventHandler_(const SDL_Event &event)
+MainGameState::EventHandler(const SDL_Event& event)
 {
 	switch (event.type) {
 	case SDL_QUIT:
-		appIsRunning_ = false;
+		WantQuit();
 		break;
 	case SDL_KEYDOWN:
 		switch (event.key.keysym.sym) {
 		case SDLK_q:
-			appIsRunning_ = false;
+			WantQuit();
 			break;
 		case SDLK_p:
 			TogglePause_();
@@ -88,25 +72,19 @@ Game::EventHandler_(const SDL_Event &event)
 		break;
 	}
 
-	workGame_.EventHandler(event);
-	spinGame_.EventHandler(event);
-	exploreGame_.EventHandler(event);
-
-	achiBar_.EventHandler(event);
+	for (auto& e : widgetList_)
+		e->EventHandler(event);
 }
 
 void
-Game::Update_()
+MainGameState::Update()
 {
-	workGame_.Update();
-	spinGame_.Update();
-	exploreGame_.Update();
-
-	achiBar_.Update();
+	for (auto& e : widgetList_)
+		e->Update();
 }
 
 void
-Game::Render_()
+MainGameState::Render()
 {
 	mainWindow_.Clear();
 	{
@@ -126,27 +104,25 @@ Game::Render_()
 }
 
 void
-Game::TogglePause_()
+MainGameState::TogglePause_()
 {
 	appIsPaused_ = !appIsPaused_;
 
 	if (appIsPaused_) {
-		achiBar_.Pause();
-		workGame_.Pause();
-
+		for (auto& e : widgetList_)
+			e->Pause();
 		pauseBG_.Show();
 		pauseSE_.Play();
 	} else {
-		achiBar_.Resume();
-		workGame_.Resume();
-
+		for (auto& e : widgetList_)
+			e->Resume();
 		pauseBG_.Hide();
 		pauseSE_.Stop();
 	}
 }
 
 void
-Game::ScreenShot_()
+MainGameState::ScreenShot_()
 {
 	int w, h;
 	struct tm* timeinfo;
@@ -181,7 +157,7 @@ Game::ScreenShot_()
 }
 
 void
-Game::Release_()
+MainGameState::Release_()
 {
 	SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "game class released");
 }
