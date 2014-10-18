@@ -29,7 +29,7 @@ class Renderable
 		void SetSize(unsigned int w, unsigned int h);
 		void SetRenderer(SDL_Renderer* renderer);
 
-		void Move(int x, int y);
+		void MoveBy(int x, int y);
 		void MoveXTo(int x);
 		void MoveYTo(int y);
 		void MoveTo(int x, int y);

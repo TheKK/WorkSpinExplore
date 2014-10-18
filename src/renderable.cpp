@@ -78,7 +78,7 @@ Renderable::SetRenderer(SDL_Renderer* renderer)
 }
 
 void
-Renderable::Move(int x, int y)
+Renderable::MoveBy(int x, int y)
 {
 	rect_.x += x;
 	rect_.y += y;
