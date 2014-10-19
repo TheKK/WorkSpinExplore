@@ -103,6 +103,9 @@ CleanUp()
 {
 	LogLocator::GetService()->LogDebug("Exit successes");
 
+	delete (LogLocator::GetService());
+	LogLocator::Register(nullptr);
+
 	SDL_Quit();
 	IMG_Quit();
 	TTF_Quit();
