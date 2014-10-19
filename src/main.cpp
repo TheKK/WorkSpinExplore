@@ -11,7 +11,9 @@
 #include <SDL2/SDL_ttf.h>
 
 #include "gameState.h"
+#include "logLocator.h"
 #include "mainGameState.h"
+#include "sdlLog.h"
 #include "soundEngine.h"
 #include "timer.h"
 #include "userEvent.h"
@@ -34,18 +36,24 @@ void PrintVersionInfo()
 
 	SDL_VERSION(&compiled);
 	SDL_GetVersion(&linked);
-	SDL_Log("Compiled against SDL version %d.%d.%d.\n",
-	       compiled.major, compiled.minor, compiled.patch);
-	SDL_Log("Linked against SDL version %d.%d.%d.\n",
-	       linked.major, linked.minor, linked.patch);
 
-	SDL_Log("SDL_image linked version %d.%d.%d\n",
+	LogLocator::GetService()->LogInfo(
+		"compiled against SDL version %d.%d.%d.\n",
+		compiled.major, compiled.minor, compiled.patch);
+
+	LogLocator::GetService()->LogInfo(
+		"Linked against SDL version %d.%d.%d.\n",
+		linked.major, linked.minor, linked.patch);
+	
+	LogLocator::GetService()->LogInfo(
+		"SDL_image linked version %d.%d.%d\n",
 		IMG_Linked_Version()->major,
 		IMG_Linked_Version()->minor,
 		IMG_Linked_Version()->patch
 	);
 
-	SDL_Log("SDL_ttf linked version %d.%d.%d.\n",
+	LogLocator::GetService()->LogInfo(
+		"SDL_ttf linked version %d.%d.%d.\n",
 		TTF_Linked_Version()->major,
 		TTF_Linked_Version()->minor,
 		TTF_Linked_Version()->patch
@@ -78,11 +86,12 @@ InitSystem()
 	UserEvent::Init();
 	SoundEngine::Init();
 
+	/* Regist SDL as our log system */
+	LogLocator::Init();
+	LogLocator::Register(new SDLLog());
+
 	/* Make game "pixelate" */
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "0");
-
-	/* Set application log's priority to DEBUG */
-	SDL_LogSetPriority(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG);
 
 	srand(time(nullptr));
 
@@ -92,7 +101,7 @@ InitSystem()
 void
 CleanUp()
 {
-	SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Exit successes");
+	LogLocator::GetService()->LogDebug("Exit successes");
 
 	SDL_Quit();
 	IMG_Quit();
@@ -112,11 +121,9 @@ ChangeState(GameState* state, enum GameStateList which)
 		state = new MainGameState();
 		break;
 	case GAME_STATE_QUIT:
-		state = nullptr;
 		break;
 	default:
-		SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
-				  "GameState trasform error");
+		LogLocator::GetService()->LogError("GameState trasform error");
 		break;
 	}
 
